@@ -1,0 +1,194 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using DalInsumos;
+using System.Data;
+using SubSonic;
+using ExtensionMethods;
+
+public partial class PedidosH_AjusteStock : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (IsPostBack) return;
+        SysUsuario us = new SysUsuario(Session["idUsuario"]);
+        if (!us.IsNew)
+        {
+            CargarDepositos();
+            //traigo los datos del encabezado
+            lblFecha.Text = DateTime.Now.ToString();
+            lblResponsable.Text = us.Apellido + ", " + us.Nombre;
+        }
+        else Response.Redirect("~/FinSesion.htm", false);
+    }
+
+    private void LoadInsumos()
+    {
+       //leo todos los insumos que posee el deposito
+        SysUsuario us = new SysUsuario(Session["idUsuario"]);
+        int deposito = Convert.ToInt32(ddlDeposito.SelectedValue);
+
+        DataTable dt = SPs.InsGetInsumosEfectorDeposito(us.IdEfector, deposito).GetDataSet().Tables[0];
+
+        gvTodos.DataSource = dt;
+        gvTodos.DataBind();
+    }
+
+    private void CargarDepositos()
+    {
+        SysUsuario us = new SysUsuario(Session["idUsuario"]);
+        
+        SubSonic.Select d = new SubSonic.Select();
+        d.From(InsDeposito.Schema);
+        d.Where(InsDeposito.Columns.Baja).IsEqualTo(0);
+        d.And(InsDeposito.Columns.IdEfector).IsEqualTo(us.IdEfector); //depositos del efector del usuario
+        ddlDeposito.DataSource = d.ExecuteTypedList<InsDeposito>();
+        ddlDeposito.DataBind();
+        ddlDeposito.Items.Insert(0, new ListItem("Seleccionar", "0"));
+    }
+
+    protected void ddlDeposito_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlDeposito.SelectedValue != "")
+        {
+            LoadInsumos();
+        }
+    }
+
+    protected void btnGuardar_Click(object sender, EventArgs e)
+    {
+      //  SysUsuario us = new SysUsuario(Session["idUsuario"]);
+      //  if (!us.IsNew)
+      //  {
+      //       int id = SubSonic.Sugar.Web.QueryString<int>("id");
+      //       // Page.Validate("1");
+      //      // if (!DatosValidos(id)) //&& (Page.IsValid))
+      //     //  {
+      //           InsPedido p = new InsPedido(id);
+      //           p.IdEfector = us.IdEfector; 
+      //           p.IdEfectorProveedor = us.IdEfector;
+      //           p.IdDeposito = us.IdEfector;
+      //           p.IdDepositoProveedor = us.IdEfector;
+      //           p.Fecha = DateTime.Now;
+      //           p.IdTipoPedido = 2;
+      //           p.IdRubro = 0; //Convert.ToInt32(ddlRubro.SelectedValue);
+      //           //verificar el tipo de pedido
+      //           p.IdEstadoPedido = 2; //Autorizado, por ser ajuste
+      //           p.IdProveedor = 0;
+      //           p.Observaciones = "Ajuste de Stock" + txtObservaciones.Text;
+      //           p.Responsable =  lblResponsable.Text; 
+      //           p.Autorizado = true; 
+      //           p.Estado = false;
+      //           p.Baja = false;
+      //           p.Save(us.Username);
+
+      //           InsMovimiento m = new InsMovimiento();
+      //           //copiar todos los datos aca
+      //           m.IdPedido = p.IdPedido;
+      //           m.IdEfector = p.IdEfector;
+      //           m.IdEfectorProveedor = p.IdEfectorProveedor;
+      //           m.IdDeposito = p.IdDeposito;
+      //           m.IdDepositoProveedor = p.IdDepositoProveedor;
+      //           m.Fecha = p.Fecha;
+      //           m.FechaRecepcion = p.FechaRecepcion;
+      //           m.IdTipoPedido = p.IdTipoPedido;
+      //           m.IdTipoComprobante = p.IdTipoComprobante;
+      //           m.NumeroComprobante = p.NumeroComprobante;
+      //           m.OrdenCompra = p.OrdenCompra;
+      //           m.IdRubro = p.IdRubro;
+      //           m.IdEstadoPedido = p.IdEstadoPedido;
+      //           m.IdProveedor = p.IdProveedor;
+      //           m.Observaciones = p.Observaciones;
+      //           m.Responsable = p.Responsable;
+      //           m.Autorizado = p.Autorizado;
+      //           m.Estado = p.Estado;
+      //           m.Baja = p.Baja;
+      //           m.CreatedBy = p.CreatedBy;
+      //           p.CreatedOn = p.CreatedOn;
+      //           m.ModifiedBy = p.ModifiedBy;
+      //           m.ModifiedOn = p.ModifiedOn;
+      //           m.Save(us.Username);
+
+      //           InsPedidoDetalle.Delete("idPedido", id);
+      //           InsPedidoDetalleCollection pds = new InsPedidoDetalleCollection();
+      //           InsMovimientoDetalleCollection mds = new InsMovimientoDetalleCollection();
+
+      //           foreach (GridViewRow gvr in gvInsumos.Rows)
+      //           {
+      //               //detalle del pedido
+      //               Label lblIdPedidoDetalle = (Label)gvr.FindControl("lblIdPedidoDetalle");
+      //               int idPD = Convert.ToInt32(lblIdPedidoDetalle.Text);
+
+      //               InsPedidoDetalle pd = new InsPedidoDetalle();
+      //               pd.IdPedido = p.IdPedido;
+
+      //               pd.FechaPedido = Convert.ToDateTime(lblFecha.Text);
+      //               //pd.IdRubro = pd.InsInsumo.IdRubro;
+
+      //               Label lblIdInsumo = (Label)gvr.FindControl("lblIdInsumo");
+      //               pd.IdInsumo = Convert.ToInt32(lblIdInsumo.Text);
+
+      //               TextBox txtCantidad = (TextBox)gvr.FindControl("txtCantidad");
+      //               pd.CantidadSolicitada = Convert.ToInt32(txtCantidad.Text);
+
+      //               TextBox txtObservacion = (TextBox)gvr.FindControl("txtObservacion");
+      //               pd.Observacion = txtObservacion.Text;
+
+      //               pd.Renglon = gvr.DataItemIndex + 1;
+      //               /**/
+      //               pd.CantidadAutorizada = 0;
+      //               pd.CantidadEmitida = 0;
+      //               pd.CantidadRecibida = 0;
+      //               pd.PrecioUnitario = 0;
+      //               pd.Observacion = txtObservacion.Text;
+      //               pd.Baja = false;
+
+      //               pds.Add(pd);
+      //           }
+      //           pds.SaveAll(us.Username);
+      //           //guardo en movimientosdetalle
+      //           foreach (InsPedidoDetalle item in pds)
+      //           {
+      //               InsMovimientoDetalle md = new InsMovimientoDetalle();
+      //               md.IdMovimiento = m.IdMovimiento;
+
+      //               md.IdPedido = item.IdPedido;
+      //               md.IdPedidoDetalle = item.IdPedidoDetalle;
+      //               md.IdInsumo = item.IdInsumo;
+      //               md.FechaPedido = item.FechaPedido;
+      //               md.Cantidad = item.Cantidad;
+      //               md.Presentacion = item.Presentacion;
+      //               md.CantidadSolicitada = item.CantidadSolicitada;
+      //               md.CantidadAutorizada = item.CantidadAutorizada;
+      //               md.CantidadEmitida = item.CantidadEmitida;
+      //               md.CantidadRecibida = item.CantidadRecibida;
+      //               md.PrecioUnitario = item.PrecioUnitario;
+      //               md.Stock = item.Stock;
+      //               md.Observacion = item.Observacion;
+      //               md.Renglon = item.Renglon;
+      //               md.RenglonOC = item.RenglonOC;
+      //               md.NumeroLote = item.NumeroLote;
+      //               md.FechaVencimiento = item.FechaVencimiento;
+      //               md.Baja = item.Baja;
+      //               md.CreatedBy = item.CreatedBy;
+      //               md.CreatedOn = item.CreatedOn;
+      //               md.ModifiedBy = item.ModifiedBy;
+      //               md.ModifiedOn = item.ModifiedOn;
+      //               mds.Add(md);
+      //           }
+      //           mds.SaveAll(us.Username);
+      //           Response.Redirect("View.aspx?id=" + p.IdPedido.ToString());
+      //       }
+      ////  }
+      //  else Response.Redirect("~/FinSesion.htm", false);
+    }
+
+    protected void btnNuevo_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AjusteStock.aspx", false);
+    }
+
+}

@@ -1,0 +1,41 @@
+/* Fisheye Menu Styles */
+#fisheye_menu {
+	list-style: none;
+	padding: 0;
+	margin: 10px;
+	height: 150px;
+}
+#fisheye_menu li {
+	position: relative;
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+#fisheye_menu span {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	text-align: center;
+	width: 79px;
+	padding: 1px;
+	margin: 0;
+	border: solid 1px #bbb;	
+	color: #333;
+	background: #eee;
+}
+#fisheye_menu a {
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+}
+#fisheye_menu img {
+	border: 0;
+	vertical-align: top;
+}
+
+/*
+#fisheye_menu li.home {left:120px; top:4px; background:url(img/configuracion.gif) no-repeat center center;}#fisheye_menu li.chat {left:200px; top:40px; background:url(img/paciente.gif) no-repeat center center;}#fisheye_menu li.upload {left:35px; top:40px; background:url(img/turno.gif) no-repeat center center;}#fisheye_menu li.email {left:230px; top:115px; background:url(img/ctrolMenor.gif) no-repeat center center;}#fisheye_menu li.address {left:5px; top:115px; background:url(img/ctrolEmbarazo.gif) no-repeat center center;}#fisheye_menu li.shop {left:200px; top:190px; background:url(img/consultas.gif) no-repeat center center;}#fisheye_menu li.search {left:35px; top:190px; background:url(img/lab.gif) no-repeat center center;}#fisheye_menu li.delivery {left:120px; top:225px; background:url(img/remediar.gif) no-repeat center center;}
+
+#circularMenu li {display:block; width:60px; height:60px; position:absolute;}#circularMenu li.home {left:120px; top:4px; background:url(circular/home.gif) no-repeat center center;}#circularMenu li.chat {left:200px; top:40px; background:url(circular/chat.gif) no-repeat center center;}#circularMenu li.upload {left:35px; top:40px; background:url(circular/photo.gif) no-repeat center center;}#circularMenu li.email {left:230px; top:115px; background:url(circular/email.gif) no-repeat center center;}#circularMenu li.address {left:5px; top:115px; background:url(circular/address.gif) no-repeat center center;}#circularMenu li.shop {left:200px; top:190px; background:url(circular/shop.gif) no-repeat center center;}#circularMenu li.search {left:35px; top:190px; background:url(circular/search.gif) no-repeat center center;}#circularMenu li.delivery {left:120px; top:225px; background:url(circular/delivery.gif) no-repeat center center;}#circularMenu li.home a:hover b {left:-22px; top:100px;}#circularMenu li.chat a:hover b  {left:-102px; top:64px;}#circularMenu li.upload a:hover b  {left:63px; top:64px;}#circularMenu li.email a:hover b  {left:-132px; top:-11px;}#circularMenu li.address a:hover b  {left:93px; top:-11px;}#circularMenu li.shop a:hover b  {left:-102px; top:-87px;}#circularMenu li.search a:hover b  {left:63px; top:-87px;}#circularMenu li.delivery a:hover b  {left:-22px; top:-121px;}*/

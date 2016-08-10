@@ -1,0 +1,85 @@
+﻿<%@ WebHandler Language="C#" Class="Insumos.Services.InsumoxEfector" %>
+
+using System;
+using System.Web;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+using System.Data.SqlClient;
+using DalInsumos;
+using fastJSON;
+using ExtensionMethods;
+
+namespace Insumos.Services
+{
+    /// <summary>
+    /// Summary description for InsumoxEfector
+    /// </summary>
+
+    [Serializable]
+    public class irhelper
+    {
+        public int id { get; set; }
+        public int codigo { get; set; }
+        public string nombre { get; set; }
+        public string descripcion { get; set; }
+    }
+
+    public class InsumoxEfector : IHttpHandler
+    {
+        public void ProcessRequest(HttpContext context)
+        {
+
+            string consulta = String.IsNullOrEmpty(context.Request.QueryString["term"]) ? "" : context.Request.QueryString["term"];
+            int codigo = consulta.TryParseInt();
+
+            string efector = String.IsNullOrEmpty(context.Request.QueryString["idef"]) ? "" : context.Request.QueryString["idef"];
+            int idefector = efector.TryParseInt();
+            
+            SubSonic.Select s = new SubSonic.Select("codigo", "nombre", "descripcion" ).Top("10");
+            s.From(Schemas.InsInsumo);
+            s.InnerJoin(Schemas.InsRelInsumoEfector);
+            s.Where(InsRelInsumoEfector.IdEfectorColumn).IsEqualTo(idefector);
+            s.And(InsInsumo.Columns.Nombre).Like(string.Format("%{0}%", consulta));
+            s.And(InsInsumo.Columns.Descripcion).Like(string.Format("%{0}%", consulta));
+            if (codigo > 0)
+            {
+                s.Or(InsInsumo.Columns.Codigo).IsEqualTo(codigo);
+            }
+            s.And(InsInsumo.Columns.Baja).IsEqualTo(0);
+            s.And(InsInsumo.ActivoColumn).IsEqualTo(1);
+            s.OrderAsc("Nombre");
+
+            List<InsInsumo> resultados = s.ExecuteTypedList<InsInsumo>();
+            List<irhelper> l = new List<irhelper>();
+
+            foreach (InsInsumo item in resultados)
+            {
+                irhelper h = new irhelper();
+                h.id = item.Codigo;
+                h.codigo = item.Codigo;
+                h.nombre = item.Nombre;
+                h.descripcion = item.Descripcion;
+                l.Add(h);
+            }
+
+            if (l.Count == 0)
+            {
+                l.Add(new irhelper() { id = -6660, nombre = "No hay resultados" });
+            }
+
+            context.Response.Clear();
+            context.Response.Write(JSON.Instance.ToJSON(l));
+            context.Response.Flush();
+            context.Response.End();
+        }
+
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
+            }
+        }
+    }
+}

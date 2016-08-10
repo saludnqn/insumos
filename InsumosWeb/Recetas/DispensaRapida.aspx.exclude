@@ -1,0 +1,254 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="DispensaRapida.aspx.cs" Inherits="Recetas_DispensaRapida" %>
+
+<%@ Register Assembly="Subsonic" Namespace="SubSonic" TagPrefix="subsonic" %>
+<%@ Register Src="~/UserControls/Insumo.ascx" TagName="Medicamento" TagPrefix="uc1" %>
+<%@ Register Src="~/UserControls/acProfesional.ascx" TagName="acProfesional" TagPrefix="uc3" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+
+    <script type="text/javascript" src="../js/Format.js"></script>
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="../js/jquery-ui-1.8.16.custom.min.js"></script>
+
+    <script type="text/javascript" src="../js/json2.js"></script>
+
+    <link href="../App_Themes/Default/redmond/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <table width="100%">
+        <tr>
+            <td><b>Farmacia</b>
+                <div class="divs">
+                    <table>
+                        <tr>
+                            <td colspan="3">
+                                <h2>
+                                    Dispensación Ambulatoria</h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Depósito-Area:
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="ddlDeposito" runat="server" DataValueField="idDeposito" DataTextField="nombre">
+                                </asp:DropDownList> <asp:HiddenField runat="server" ID="hfIdEfector" Value="0" />
+                            </td>
+                            <td>
+                                &nbsp;&nbsp;&nbsp; Fecha:
+                                <asp:TextBox ID="txtFecha" runat="server" Width="80px" ToolTip="Formatos permitidos: 01/03/1975, 010375, 01031975"
+                                    onblur="javascript:formatearFecha(this)"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                DNI/DU:
+                            </td>
+                            <td>
+                                <asp:TextBox ID="txtDoc" runat="server" ToolTip="Ingresar el Documento del Paciente"
+                                    MaxLength="9" Width="100px" TabIndex="1"></asp:TextBox>
+                                &nbsp;&nbsp;&nbsp;
+                                <asp:Button ID="btnBuscar" runat="server" TabIndex="2" Text="Buscar Paciente" Height="23px"
+                                    OnClick="btnBuscar_Click" />
+                            </td>
+                            <td style="padding-top: 12px;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="lblMensaje" runat="server" CssClass="Msn" Text=""></asp:Label>
+                <br />
+                <div id="panelPaciente" runat="server" visible="false">
+                    <div class="divs">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2">
+                                    <h2>
+                                        Indentificación del Paciente</h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Paciente:
+                                    <asp:Label ID="lblPaciente" runat="server"></asp:Label>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <asp:Label ID="lblSexo" runat="server"></asp:Label><asp:HiddenField ID="hfIdPaciente"
+                                        runat="server" />
+                                </td>
+                                <td>
+                                    Fecha Nacimiento:
+                                    <asp:Label ID="lblFechaNac" runat="server"></asp:Label>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <asp:Label ID="lblEdad" runat="server" Text=""></asp:Label><asp:HiddenField ID="hfEdad"
+                                        runat="server" />
+                                    &nbsp;&nbsp;&nbsp;
+                                    <asp:LinkButton ID="lbRecetas" runat="server" ToolTip="Ver Recetas Anteriores" OnClick="lbRecetas_Click">Medicación Anterior</asp:LinkButton>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Obra Social:
+                                    <asp:Label ID="lblOSocial" runat="server" ToolTip="Obra Social registrada en Empadronamiento del Paciente"></asp:Label>
+                                    <%--<asp:LinkButton ID="lbRecetas" runat="server" ToolTip="Ver Recetas Anteriores" OnClick="lbRecetas_Click">Medicación Anterior</asp:LinkButton>--%>
+                                    &nbsp;&nbsp;&nbsp; Historia Clínica:
+                                    <asp:Label ID="lblHC" runat="server" ToolTip="Número de Historia Clínica en el efector"
+                                        Text=""></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="divs">
+                        <table width="100%">
+                            <tr>
+                                <td colspan="2">
+                                    <h2>
+                                        Tratamiento
+                                    </h2>
+                                </td>
+                            </tr>
+                            <tr>
+                            <td>
+                              <asp:Label ID="lblMedicamento" runat=server Text="Medicamento" ToolTip="Seleccione el Medicamento"></asp:Label>                          
+                            </td>
+                                <td>
+                                    <uc1:Medicamento ID="Medicamento" runat="server" TabIndex="3" />
+                                    &nbsp;&nbsp;&nbsp;
+                                    <div style="float: right; margin-right: 50px; margin-top: -85px; width: auto;">
+                                        <asp:Button ID="btnAsignar" runat="server" Text="Asignar Medicamento" TabIndex="4"
+                                            OnClick="btnAsignar_Click1" ToolTip="Asignar Insumo para el registro de la Demanda Rechazada." />
+                                    </div>
+                                    <asp:Label ID="lblMensajeM" runat="server" CssClass="Msn" Text=""></asp:Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Always">
+                                        <ContentTemplate>
+                                            <div class="contentBox">
+                                                <asp:GridView ID="gvInsumos" runat="server" TabIndex="4" AutoGenerateColumns="False"
+                                                    CellPadding="2" CssClass="mGrid" EmptyDataText="Sin entregas" OnRowDataBound="gvInsumos_RowDataBound">
+                                                    <Columns>
+                                                        <asp:TemplateField>
+                                                            <ItemTemplate>
+                                                                <%# Container.DataItemIndex + 1 %>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="IdPrescripcionDetalle" Visible="false">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblIdPrescripcionDetalle" runat="server" Text='<%# Eval("IdPrescripcionDetalle") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="IdInsumo" Visible="false">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblIdInsumo" runat="server" Text='<%# Eval("IdInsumo") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Medicamento">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblMedicamento" runat="server" Text='<%# Eval("InsInsumo.nombre") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Cant. Entregada">
+                                                            <ItemTemplate>
+                                                                <asp:TextBox ID="txtCantidadE" runat="server" ToolTip="Ingrese la Cantidad Entregada al Paciente"
+                                                                    Width="50px" Text='<%# Eval("CantidadEmitida") %>'>
+                                                                </asp:TextBox>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Unidad">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblUnidad" runat="server" Text='<%# Eval("InsInsumo.Unidad") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Eliminar">
+                                                            <ItemTemplate>
+                                                                <asp:ImageButton runat="server" ID="ibBorrar" ToolTip="Eliminar medicación de la Lista"
+                                                                    CommandName="Delete" CommandArgument='<%# Container.DataItemIndex %>' OnCommand="ibBorrar_Command"
+                                                                    ImageUrl="~/App_Themes/Default/images/del.png" OnClientClick="siOno()" />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Profesional:<br />
+                                    <div style="text-align: center">
+                                        <asp:ImageButton ID="lkProfesional" runat="server" ImageUrl="../App_Themes/Default/images/os.png"
+                                            ToolTip="Donde trabaja?" OnClick="lkProfesional_Click" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <br />
+                                    <uc3:acProfesional ID="acProfesional" runat="server" TabIndex="9" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Observaciones:
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="txtObservaciones" runat="server" Width="80%" TextMode="MultiLine"
+                                        Rows="2"></asp:TextBox>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <asp:ValidationSummary ID="ValidationSummary1" runat="server" DisplayMode="BulletList"
+                    ShowMessageBox="true" ShowSummary="false" ValidationGroup="G" />
+                <asp:ValidationSummary ID="ValidationSummary2" runat="server" DisplayMode="BulletList"
+                    ShowMessageBox="true" ShowSummary="false" ValidationGroup="C" />
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+    <asp:Button ID="btnGuardar" runat="server" Text="Guardar >>" OnClick="btnGuardar_Click"
+        TabIndex="10" ToolTip="Guardar y Dispensar" OnClientClick="DisableButton(this);"
+        UseSubmitBehavior="false" ValidationGroup="G" />
+    &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Cancelar" title="Cancelar" onclick="history.go(-1)" />
+
+    <script type="text/javascript">
+        function DisableButton(btn) {
+            var isPageValid = true;
+            if (typeof (Page_ClientValidate) == 'function') {
+                isPageValid = Page_ClientValidate('0');
+            }
+
+            if (Page_IsValid) {
+                btn.disabled = true; btn.value = 'Espere...';
+            }
+        }
+
+        function enter2tab(e) {
+            if (e.keyCode == 13) {
+                cb = parseInt($(this).attr('tabindex'));
+
+                if ($(':input[tabindex=\'' + (cb + 1) + '\']') != null) {
+                    $(':input[tabindex=\'' + (cb + 1) + '\']').focus();
+                    $(':input[tabindex=\'' + (cb + 1) + '\']').select();
+                    e.preventDefault();
+
+                    return false;
+                }
+            }
+        }
+    </script>
+
+</asp:Content>

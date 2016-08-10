@@ -1,0 +1,35 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="View.aspx.cs" Inherits="Rubros_View" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" Runat="Server">
+<div class="divs">
+<h2>Rubros</h2>
+<table>
+<tr>
+<td>Código: <asp:Label ID="lblCodigo" runat="server"></asp:Label></td>
+</tr>
+<tr>
+<td>Rubro: <asp:Label ID="lblRubro" runat="server"></asp:Label></td>
+</tr>
+<tr>
+<td>Rubro Padre: <asp:HyperLink ID="hlRPadre" runat="server" ToolTip="Haga click para ver mas información del Rubro"></asp:HyperLink></td>
+</tr>
+<tr>
+<td>Rubro Primer Nivel: <asp:Label ID="lblRPNivel" runat="server"></asp:Label>
+<asp:HyperLink ID="hlRPNivel" runat="server" ToolTip="Haga click para ver mas información del Rubro"></asp:HyperLink></td>
+</tr>
+<tr>
+<td><asp:Label ID="lblActivo" runat="server" Text=""></asp:Label></td>
+</tr>
+</table>
+</div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" Runat="Server">
+<%-- <asp:Button ID="btnEditar" runat="server" Text="Modificar" OnClick="btnEditar_Click" />
+        &nbsp;&nbsp;&nbsp;
+        <asp:Button ID="btnNuevo" runat="server" Text="Nuevo" OnClick="btnNuevo_Click" />
+        &nbsp;&nbsp;&nbsp;
+--%><input type="button" value="Volver" title="Volver a la página anterior" onclick="history.go(-1)" />
+</asp:Content>
+

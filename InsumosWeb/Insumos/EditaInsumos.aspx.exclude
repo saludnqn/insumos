@@ -1,0 +1,57 @@
+<%@ Page Title="Edicion de Insumos" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="EditaInsumos.aspx.cs" Inherits="Insumos_EditaInsumos" %>
+
+<%@ Register Assembly="Subsonic" Namespace="SubSonic" TagPrefix="subsonic" %>
+<%@ Register Src="~/UserControls/Insumo.ascx" TagName="Insumo" TagPrefix="uc1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+    <script type="text/javascript" src="../js/Format.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="../js/json2.js"></script>
+    <link href="../App_Themes/Default/redmond/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <div class="divs">
+        <h2>Edición de Insumos</h2>
+        <table width="100%">
+            <tr>
+                <td style="width: 20%">Medicamento</td>
+                <td>
+                    <div style="font-family: Verdana;">
+                        <uc1:Insumo ID="Medicamento" runat="server" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Ingrese el Código Remediar</td>
+                <td>
+                    <asp:TextBox ID="txtCodigoRemediar" runat="server" Width="10%" ToolTip="Ingrese el Código Remediar"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td>Observaciones</td>
+                <td>
+                    <asp:TextBox ID="txtObservaciones" runat="server" Width="70%"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td colspan="2">Necesita Vencimiento?
+                    <asp:CheckBox ID="cbVencimiento" runat="server" Checked="true" />
+                    &nbsp;&nbsp;&nbsp;
+               Baja del Insumo
+                    <asp:CheckBox ID="cbBaja" runat="server" Checked="false" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">Insumo Común:
+                    <asp:CheckBox ID="cvComun" runat="server" Checked="true" ToolTip="Insumo común para todos los efectores" />
+                    &nbsp;&nbsp;&nbsp;
+                Formulario Necesita Receta?
+                    <asp:CheckBox ID="cvNecesitaReceta" runat="server" Checked="true" ToolTip="El insumo necesita receta?" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+    <asp:Button ID="btnGuardar" runat="server" Text="Guardar" OnClick="btnGuardar_Click" ToolTip="Guardar los cambios" />
+    &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Cancelar" title="Cancelar" onclick="history.go(-1)" />
+</asp:Content>

@@ -1,0 +1,11 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Diagrama.aspx.cs" Inherits="Trazabilidad_Diagrama" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" Runat="Server">
+<h2>Hacer diagrama de Distribución de Insumos</h2>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" Runat="Server">
+<input type="button" value="Cerrar" title="Cerrar y volver a la página anterior" onclick="history.go(-1)" />
+</asp:Content>
+

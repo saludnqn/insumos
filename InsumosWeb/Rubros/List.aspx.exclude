@@ -1,0 +1,50 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="List.aspx.cs" Inherits="Rubros_List" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+    <script src="../js/jquery.js" type="text/javascript"></script>
+    <script src="../js/jquery.cookie.js" type="text/javascript"></script>
+    <script src="../js/js/jquery-ui.custom.js" type="text/javascript"></script>
+    <script src="../js/jquery.dynatree.js" type="text/javascript"></script>
+    <link href="../App_Themes/Default/css/ui.dynatree.css" id="skinSheet" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+        $(document).ready(function() {
+            $("#tree").dynatree({
+                onActivate: function(node) {
+                    $("#echoActive").text(node.data.key);
+                },
+                onDeactivate: function(node) {
+                    $("#echoActive").text("-");
+                }
+            });
+        });
+    </script>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <h2>Rubros y Subrubros Disponibles</h2>
+ <table>
+        <tr>
+            <td>
+                <%-- Seleccione el Rubro:
+                <asp:DropDownList ID="ddlRubro" runat="server" DataValueField="idRubro" DataTextField="nombre"
+                    ToolTip="Seleccione el Rubro.">
+                </asp:DropDownList>
+                &nbsp;&nbsp;&nbsp;
+                <asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" />--%>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Label ID="lblMensaje" runat="server" Text=""></asp:Label>
+            </td>
+        </tr>
+    </table>
+    <asp:Panel ID="Panel1" runat="server" ScrollBars="Both">
+        <div id="tree">
+            <asp:Literal ID="lit1" runat="server"></asp:Literal>
+        </div>
+    </asp:Panel>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+    <input type="button" value="Volver" title="Volver a la página anterior" onclick="history.go(-1)" />
+</asp:Content>

@@ -1,0 +1,53 @@
+﻿ul#topnav 
+{
+	clear: both;
+	margin: 2; padding: 2;
+	float: left;
+	width: 650px;
+	list-style: none;
+	position: relative;
+	text-transform:capitalize;
+	font-family:"Verdana",Tahoma;
+	font-size: 10pt;
+}
+
+ul#topnav li {
+	float: left;
+	margin: 0; padding: 0;
+	border-right: 0px solid #1376c9;
+	color: #1376c9;
+	text-decoration: underline;
+}
+ul#topnav li a {
+	padding: 3px 3px;
+	display: block;
+	color: #1376c9; /*azul, este muestra la primera vista del menu*/
+	text-decoration: none;
+	/*border-right: 1px dotted #000;*/
+}
+ul#topnav li:hover {color: #d3dfed;} /*celeste*/
+ul#topnav li span {
+	float: left;
+	padding: 5px 0 0 0;
+	position: absolute;
+	left: 0; top:20px;
+	height: 18px;
+	display: none;
+	width: 92%;
+	background-color: #1376c9; /*color de fondo*/
+	color: #d3dfed;
+	-moz-border-radius-bottomright: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-khtml-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+}
+ul#topnav li:hover span { display: block;}
+ul#topnav li span a { display: inline; background-color: #1376c9; color: #d3dfed} /*celeste*/
+ul#topnav li span a:hover {text-decoration: underline; background-color: #1376c9;} /*azul que señala al objeto del submenu*/
+
+/*
+#ja-mainnav ul.menu li a:hover,
+#ja-mainnav ul.menu li a:active,
+#ja-mainnav ul.menu li a:focus  */

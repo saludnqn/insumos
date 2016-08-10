@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Buscar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="filtro" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="documento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="apellido" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="celular" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ultimaVisita" nillable="true" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarCronicos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="documento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="WSCronico">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Historia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Documento" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IdPatologiaCIE10" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="HospitalOrigen" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Servicio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Medico" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="FechaInicio" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Patologia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SubPatologia" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfWSCronico">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="WSCronico" nillable="true" type="tns:WSCronico" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BuscarCronicosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarCronicosResult" type="tns:ArrayOfWSCronico" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ArrayOfWSCronico" nillable="true" type="tns:ArrayOfWSCronico" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="BuscarSoapIn">
+    <wsdl:part name="parameters" element="tns:Buscar" />
+  </wsdl:message>
+  <wsdl:message name="BuscarSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarCronicosSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarCronicos" />
+  </wsdl:message>
+  <wsdl:message name="BuscarCronicosSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarCronicosResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarCronicosHttpGetIn">
+    <wsdl:part name="documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscarCronicosHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfWSCronico" />
+  </wsdl:message>
+  <wsdl:message name="BuscarCronicosHttpPostIn">
+    <wsdl:part name="documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscarCronicosHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfWSCronico" />
+  </wsdl:message>
+  <wsdl:portType name="WebServiceSoap">
+    <wsdl:operation name="Buscar">
+      <wsdl:input message="tns:BuscarSoapIn" />
+      <wsdl:output message="tns:BuscarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarCronicos">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Permite buscar pacientes crónicos por documento</wsdl:documentation>
+      <wsdl:input message="tns:BuscarCronicosSoapIn" />
+      <wsdl:output message="tns:BuscarCronicosSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WebServiceHttpGet">
+    <wsdl:operation name="BuscarCronicos">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Permite buscar pacientes crónicos por documento</wsdl:documentation>
+      <wsdl:input message="tns:BuscarCronicosHttpGetIn" />
+      <wsdl:output message="tns:BuscarCronicosHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WebServiceHttpPost">
+    <wsdl:operation name="BuscarCronicos">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Permite buscar pacientes crónicos por documento</wsdl:documentation>
+      <wsdl:input message="tns:BuscarCronicosHttpPostIn" />
+      <wsdl:output message="tns:BuscarCronicosHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Buscar">
+      <soap:operation soapAction="http://tempuri.org/Buscar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarCronicos">
+      <soap:operation soapAction="http://tempuri.org/BuscarCronicos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Buscar">
+      <soap12:operation soapAction="http://tempuri.org/Buscar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarCronicos">
+      <soap12:operation soapAction="http://tempuri.org/BuscarCronicos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceHttpGet" type="tns:WebServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="BuscarCronicos">
+      <http:operation location="/BuscarCronicos" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceHttpPost" type="tns:WebServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="BuscarCronicos">
+      <http:operation location="/BuscarCronicos" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService">
+    <wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
+      <soap:address location="https://10.1.72.7/dotnet/Historias/Services/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceSoap12" binding="tns:WebServiceSoap12">
+      <soap12:address location="https://10.1.72.7/dotnet/Historias/Services/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceHttpGet" binding="tns:WebServiceHttpGet">
+      <http:address location="https://10.1.72.7/dotnet/Historias/Services/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceHttpPost" binding="tns:WebServiceHttpPost">
+      <http:address location="https://10.1.72.7/dotnet/Historias/Services/WebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

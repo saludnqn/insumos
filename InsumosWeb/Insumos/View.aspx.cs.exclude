@@ -1,0 +1,43 @@
+﻿using System;
+using System.Web.UI;
+using DalInsumos;
+
+public partial class Insumos_View : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            //traigo los datos del INSUMO
+            int id = Convert.ToInt32(Request.QueryString["id"]);
+            InsInsumo ins = new InsInsumo(id);
+
+            if (!ins.IsNew)
+            {
+                lblInsumo.Text = ins.Nombre;
+                hlInsumo.Value = ins.Codigo.ToString();
+                lblRubro.Text = ins.InsRubro.Nombre;
+                lblDescripcion.Text = ins.Descripcion;
+                lblObservaciones.Text = ins.Observaciones;
+                lblCodigo.Text = ins.CodigoSss;
+                lblUnidad.Text = ins.Unidad;
+                if (ins.NecesitaVencimiento == true) lblVencimiento.Text = "Necesita Vencimiento";
+                else lblVencimiento.Text = "No Necesita vencimiento";
+                if (ins.InsumoComun == true) lblInsumoComun.Text = "Medicamento Común";
+                else lblInsumoComun.Text = "-";
+                if (ins.FarmaciaNecesitaReceta == true) lblNecesitaReceta.Text = "Necesita Receta";
+                else lblVencimiento.Text = "-";
+            }
+        }
+    }
+
+    protected void hlDatosfarmacia_Click(object sender, ImageClickEventArgs e)
+    {
+        Response.Redirect("~/DatosFarmaceuticos/Edit.aspx?idI=" + hlInsumo.Value);
+    }
+
+    protected void hlDatosalarma_Click(object sender, ImageClickEventArgs e)
+    {
+        Response.Redirect("~/Alarmas/Edit.aspx?idI=" + hlInsumo.Value);
+    }
+}

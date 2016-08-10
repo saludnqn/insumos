@@ -1,0 +1,44 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="Edit.aspx.cs" Inherits="Rubros_Edit" %>
+
+<%@ Register Assembly="Subsonic" Namespace="SubSonic" TagPrefix="subsonic" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <div class="divs">
+        <h2>
+            Alta de Rubros</h2>
+        <table>
+            <tr>
+                <td>
+                    Ingrese el Rubro
+                </td>
+                <td>
+                    <asp:TextBox ID="txtRubro" runat="server" ToolTip="Ingrese el Rubro"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Rubro Superior
+                </td>
+                <td>
+                    <asp:DropDownList ID="ddlRubros" runat="server" DataValueField="idRubro" DataTextField="nombre"
+                        ToolTip="Seleccione el Rubro">
+                    </asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:CheckBox ID="ckbBaja" runat="server" TextAlign="Left" ToolTip="Seleccionar para dar de baja el Rubro." />Baja
+                    del Rubro
+                </td>
+            </tr>
+        </table>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+    <asp:Button ID="btnGuardar" runat="server" Text="Guardar" OnClick="btnGuardar_Click"
+        ToolTip="Guardar los cambios" />
+    &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Cancelar" title="Cancelar" onclick="history.go(-1)" />
+</asp:Content>

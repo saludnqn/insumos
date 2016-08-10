@@ -1,0 +1,58 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="List1.aspx.cs" Inherits="Rubros_List1" %>
+
+<%@ Register Src="~/UserControls/Rubro.ascx" TagName="Rubro" TagPrefix="uc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="../js/jquery-ui-1.8.16.custom.min.js"></script>
+
+    <script type="text/javascript" src="../js/json2.js"></script>
+
+    <link href="../App_Themes/Default/redmond/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <div class="divs">
+        <h2>
+            Insumos por Rubro</h2>
+        <table width="100%">
+            <tr>
+                <td colspan="2">
+                    <div style="font-family: Verdana;">
+                        <uc1:Rubro ID="Rubro" runat="server" />
+                    </div>
+                    <asp:Button ID="btnBuscar" runat="server" Text="Buscar Insumos" Height="23px" ToolTip="Buscar Insumos del Rubro"
+                        OnClick="btnBuscar_Click" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="divs">
+        <div class="contentBoxW">
+            <asp:GridView ID="gvInsumos" runat="server" AutoGenerateColumns="false" EmptyDataText="Sin registros."
+                GridLines="None" PagerStyle-CssClass="pgr" AlternatingRowStyle-CssClass="alt"
+                ShowFooter="false" AllowPaging="true" PageSize="15" CssClass="mGrid" OnPageIndexChanging="gvInsumos_PageIndexChanging">
+                <Columns>
+                    <asp:BoundField DataField="RubroPrimerNivel" HeaderText="RubroPrimerNivel" />
+                    <asp:BoundField DataField="subRubro" HeaderText="SubRubro" />
+                    <asp:BoundField DataField="codigoInsumo" HeaderText="Código" />
+                    <asp:TemplateField HeaderText="Insumo">
+                        <ItemTemplate>
+                            <asp:Label ID="lblInsumo" runat="server" Text='<%# Eval("nombre") %>' Title='<%# Eval("descripcion") %>' />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="unidad" HeaderText="Unidad" />
+                    <asp:BoundField DataField="necesitavencimiento" HeaderText="Vencimiento" />
+                    <asp:BoundField DataField="alarma" HeaderText="Alarma" />
+                    <asp:BoundField DataField="CreatedBy" HeaderText="Creado Por" />
+                    <asp:BoundField DataField="CreatedOn" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy}" />
+                </Columns>
+            </asp:GridView>
+        </div>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+<input type="button" value="Volver" title="Volver a la página anterior" onclick="history.go(-1)" />
+</asp:Content>

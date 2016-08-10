@@ -1,0 +1,56 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Edit1.aspx.cs" Inherits="Insumos_Edit1" %>
+
+<%@ Register Assembly="Subsonic" Namespace="SubSonic" TagPrefix="subsonic" %>
+<%@ Register Src="~/UserControls/Rubro.ascx" TagName="Rubro" TagPrefix="uc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+    <script type="text/javascript" src="../js/Format.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="../js/json2.js"></script>
+    <link href="../App_Themes/Default/redmond/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" Runat="Server">
+  <div class="divs">
+  <h2>Alta de Insumos</h2>
+    <table width="100%">
+    <tr>
+    <td style="width:20%">Rubro/Subrubro</td>
+    <td> <div style="font-family: Verdana;">
+        <uc1:Rubro ID="Rubro" runat="server" />
+    </div>
+    </td>
+    </tr>
+    <tr>
+    <td style="width:auto">Nombre Insumo</td>
+    <td><asp:TextBox ID="txtInsumo" runat="server" Width="90%" Rows="2"></asp:TextBox></td>
+    </tr>
+    <tr>
+    <td>Descripción</td>
+    <td><asp:TextBox ID="txtDescripcion" runat="server" Width="90%" TextMode="MultiLine" Rows="5"></asp:TextBox></td>
+    </tr>
+    <tr>
+    <td>Observaciones</td>
+    <td><asp:TextBox ID="txtObservaciones" runat="server" Width="90%" TextMode="MultiLine" Rows="5"></asp:TextBox></td>
+    </tr>
+    <tr>
+    <td style="width:auto">Unidad Manejo Stock</td>
+    <td>
+    <subsonic:DropDown ID="ddlUnidad" runat="server" TableName="Insumos_Unidades" TextField="Unidad" OrderField="Unidad" ToolTip="Seleccione la unidad de medida">
+    </subsonic:DropDown>
+    <%--    <asp:DropDownList ID="ddlUnidad" runat="server" DataValueField="idUnidad" DataTextField="nombre" ToolTip="Seleccione la Unidad">
+        </asp:DropDownList>--%>
+    </td>
+    </tr>
+    <tr>
+    <td colspan="2">Necesita Vencimiento? <asp:CheckBox ID="cbVencimiento" runat="server" Checked="true" />
+    &nbsp;&nbsp;&nbsp;
+    Baja del Insumo <asp:CheckBox ID="cbBaja" runat="server" Checked="false" /></td>
+    </tr>
+    </table>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" Runat="Server">
+    <asp:Button ID="btnGuardar" runat="server" Text="Guardar" onclick="btnGuardar_Click" ToolTip="Guardar los cambios" />
+    &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Cancelar" title="Cancelar" onclick="history.go(-1)" />
+</asp:Content>

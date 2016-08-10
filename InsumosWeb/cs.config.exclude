@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<connectionStrings>
+  <clear />
+  <!--  <add name="InsConnectionString" connectionString="Server=.; Database=SIntegralHDev1;User ID=sa;Password=ssecure; Trusted_Connection=False;" />
+  <add name="SIntegralHDevConnectionString" connectionString="Data Source=.;Initial Catalog=SIntegralHDev1;Persist Security Info=True;User ID=sa;Password=ssecure"
+    providerName="System.Data.SqlClient" />-->
+ <add name="InsConnectionString" connectionString="Server=10.1.232.23; Database=SIPSDesa;User ID=sa;Password=ssecure; Trusted_Connection=False;" />
+  <add name="SIntegralHDevConnectionString" connectionString="Data Source=10.1.232.23;Initial Catalog=SIPDesa;Persist Security Info=True;User ID=sa;Password=ssecure"
+    providerName="System.Data.SqlClient" />
+  <add name="PadronConnectionString" connectionString="Server=10.1.232.8; Database=Padron;User ID=sa;Password=ssecure; Trusted_Connection=False;"  />
+</connectionStrings>

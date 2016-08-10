@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="MapaDeCamas">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fecha" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MapaDeCamasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MapaDeCamasResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarInternados">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="documento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="WSInternacion">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Historia" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DocumentoTipo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Documento" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Apellido" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Nombre" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OS" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="FechaIngreso" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Servicio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NumHabitacion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NumCama" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfWSInternacion">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="WSInternacion" nillable="true" type="tns:WSInternacion" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BuscarInternadosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarInternadosResult" type="tns:ArrayOfWSInternacion" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="anyType" nillable="true" />
+      <s:element name="ArrayOfWSInternacion" nillable="true" type="tns:ArrayOfWSInternacion" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="MapaDeCamasSoapIn">
+    <wsdl:part name="parameters" element="tns:MapaDeCamas" />
+  </wsdl:message>
+  <wsdl:message name="MapaDeCamasSoapOut">
+    <wsdl:part name="parameters" element="tns:MapaDeCamasResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarInternadosSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarInternados" />
+  </wsdl:message>
+  <wsdl:message name="BuscarInternadosSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarInternadosResponse" />
+  </wsdl:message>
+  <wsdl:message name="MapaDeCamasHttpGetIn">
+    <wsdl:part name="fecha" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MapaDeCamasHttpGetOut">
+    <wsdl:part name="Body" element="tns:anyType" />
+  </wsdl:message>
+  <wsdl:message name="BuscarInternadosHttpGetIn">
+    <wsdl:part name="documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscarInternadosHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfWSInternacion" />
+  </wsdl:message>
+  <wsdl:message name="MapaDeCamasHttpPostIn">
+    <wsdl:part name="fecha" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="MapaDeCamasHttpPostOut">
+    <wsdl:part name="Body" element="tns:anyType" />
+  </wsdl:message>
+  <wsdl:message name="BuscarInternadosHttpPostIn">
+    <wsdl:part name="documento" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="BuscarInternadosHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfWSInternacion" />
+  </wsdl:message>
+  <wsdl:portType name="WebServicesSoap">
+    <wsdl:operation name="MapaDeCamas">
+      <wsdl:input message="tns:MapaDeCamasSoapIn" />
+      <wsdl:output message="tns:MapaDeCamasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarInternados">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Permite buscar pacientes internados por documento</wsdl:documentation>
+      <wsdl:input message="tns:BuscarInternadosSoapIn" />
+      <wsdl:output message="tns:BuscarInternadosSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WebServicesHttpGet">
+    <wsdl:operation name="MapaDeCamas">
+      <wsdl:input message="tns:MapaDeCamasHttpGetIn" />
+      <wsdl:output message="tns:MapaDeCamasHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarInternados">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Permite buscar pacientes internados por documento</wsdl:documentation>
+      <wsdl:input message="tns:BuscarInternadosHttpGetIn" />
+      <wsdl:output message="tns:BuscarInternadosHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WebServicesHttpPost">
+    <wsdl:operation name="MapaDeCamas">
+      <wsdl:input message="tns:MapaDeCamasHttpPostIn" />
+      <wsdl:output message="tns:MapaDeCamasHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarInternados">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Permite buscar pacientes internados por documento</wsdl:documentation>
+      <wsdl:input message="tns:BuscarInternadosHttpPostIn" />
+      <wsdl:output message="tns:BuscarInternadosHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServicesSoap" type="tns:WebServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="MapaDeCamas">
+      <soap:operation soapAction="http://tempuri.org/MapaDeCamas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarInternados">
+      <soap:operation soapAction="http://tempuri.org/BuscarInternados" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServicesSoap12" type="tns:WebServicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="MapaDeCamas">
+      <soap12:operation soapAction="http://tempuri.org/MapaDeCamas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarInternados">
+      <soap12:operation soapAction="http://tempuri.org/BuscarInternados" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServicesHttpGet" type="tns:WebServicesHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="MapaDeCamas">
+      <http:operation location="/MapaDeCamas" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarInternados">
+      <http:operation location="/BuscarInternados" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServicesHttpPost" type="tns:WebServicesHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="MapaDeCamas">
+      <http:operation location="/MapaDeCamas" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarInternados">
+      <http:operation location="/BuscarInternados" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebServices">
+    <wsdl:port name="WebServicesSoap" binding="tns:WebServicesSoap">
+      <soap:address location="https://10.1.72.7/dotnet/Internacion/Services/WebServices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServicesSoap12" binding="tns:WebServicesSoap12">
+      <soap12:address location="https://10.1.72.7/dotnet/Internacion/Services/WebServices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServicesHttpGet" binding="tns:WebServicesHttpGet">
+      <http:address location="https://10.1.72.7/dotnet/Internacion/Services/WebServices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServicesHttpPost" binding="tns:WebServicesHttpPost">
+      <http:address location="https://10.1.72.7/dotnet/Internacion/Services/WebServices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

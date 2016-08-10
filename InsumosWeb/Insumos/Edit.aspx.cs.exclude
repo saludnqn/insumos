@@ -1,0 +1,110 @@
+﻿using System;
+using System.Web.UI.WebControls;
+using DalInsumos;
+using System.Data;
+
+
+public partial class Insumos_Edit : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (IsPostBack) return;
+        SysUsuario us = new SysUsuario(Session["idUsuario"]);
+        if (!us.IsNew)
+        {
+            //id para edicion
+            int id = SubSonic.Sugar.Web.QueryString<int>("id");
+            CargarCombos();
+            if (id > 0)
+            {
+                CargarInsumo(id);
+            }
+        }
+        else Response.Redirect("~/FinSesion.htm", false);
+    }
+
+    private void CargarCombos()
+    {
+        SubSonic.Select un = new SubSonic.Select();
+        un.From(InsUnidad.Schema);
+        ddlUnidad.DataSource = un.ExecuteTypedList<InsUnidad>();
+        ddlUnidad.DataBind();
+        ddlUnidad.Items.Insert(0, new ListItem("Seleccione la unidad", "0"));
+    }
+
+    private void CargarInsumo(int id)
+    {
+        InsInsumo ins = new InsInsumo(id);
+        if (!ins.IsNew)
+        {
+            txtInsumo.Text = ins.Nombre;
+            Rubro.setRubro(ins.Rubro);
+            txtDescripcion.Text = ins.Descripcion;
+            ddlUnidad.SelectedValue = ins.Unidad;
+            txtObservaciones.Text = ins.Observaciones;
+            cbVencimiento.Checked = ins.NecesitaVencimiento;
+            //if (ins.Baja == true) cbBaja.Checked = true;
+            //else cbBaja.Checked = false;
+            //if (ins.InsumoComun == true) cbInterno.Checked = true;
+            //else cbInterno.Checked = false;
+        }
+    }
+
+    protected void btnGuardar_Click(object sender, EventArgs e)
+    {
+         SysUsuario us = new SysUsuario(Session["idUsuario"]);
+         if (!us.IsNew)
+         {
+             int id = SubSonic.Sugar.Web.QueryString<int>("id");
+             // Page.Validate("1");
+             if (DatosValidos(id)) //&& (Page.IsValid))
+             {
+                 InsInsumo ins = new InsInsumo(id);
+
+                 ins.Rubro = Rubro.getRubro();
+                 ins.Codigo = CalculoCodigo();
+                 ins.Sistema = 1;
+                 //el rubro del insumo es el codigo del Rubro
+                 ins.Rubro = Convert.ToInt32(ins.InsRubro.IdRubroPadre);
+                 ins.Nombre = txtInsumo.Text;
+                 ins.Descripcion = txtDescripcion.Text;
+                 ins.Unidad = ddlUnidad.SelectedValue;
+                 ins.Observaciones = txtObservaciones.Text;
+                 ins.NecesitaVencimiento = cbVencimiento.Checked;
+                 ins.IdEfector = us.IdEfector; //efector de prueba
+                 if (cbBaja.Checked == true) ins.Baja = true;
+                 else ins.Baja = false;
+                 if (cbInterno.Checked == true) ins.InsumoComun = true;
+                 else ins.InsumoComun = false;
+                 ins.Activo = true;
+                 ins.UltimaModificacion = ins.ModifiedOn;
+                 ins.Save(us.Username);
+                 Response.Redirect("View.aspx?id=" + ins.Codigo.ToString());
+             }
+         }
+         else Response.Redirect("~/FinSesion.htm", false);
+    }
+
+    private int CalculoCodigo()
+    {
+        int cod = Convert.ToInt32(SPs.InsGetMaxCodigoInsumo().ExecuteScalar());
+        if (cod > 0) cod = cod + 1;
+        return cod;
+    }
+
+    private bool DatosValidos(int id)
+    {
+        //verifico que el registro ya existe
+        SubSonic.Select ins = new SubSonic.Select();
+        ins.From(InsInsumo.Schema);
+        ins.Where(InsInsumo.Columns.Codigo).IsNotEqualTo(id);
+        DataTable dtd = ins.ExecuteDataSet().Tables[0];
+
+        if (dtd.Rows.Count > 0)
+        {
+            return true;
+        }
+        return true;
+    }
+
+}

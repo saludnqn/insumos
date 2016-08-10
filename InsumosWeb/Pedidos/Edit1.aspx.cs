@@ -1,0 +1,423 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using DalInsumos;
+using System.Data;
+using SubSonic;
+using ExtensionMethods;
+
+
+public partial class Pedidos_Edit1 : System.Web.UI.Page
+{
+    private InsPedidoDetalleCollection Detalles
+    {
+        get
+        {
+            return ViewState["detalles"] == null ? new InsPedidoDetalleCollection() : (InsPedidoDetalleCollection)ViewState["detalles"];
+        }
+        set { ViewState["detalles"] = value; }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (IsPostBack) return;
+        SysUsuario us = new SysUsuario(Session["idUsuario"]);
+        if (!us.IsNew)
+        {
+            CargarCombo();
+            txtFecha.Text = DateTime.Now.ToShortDateString();
+
+            int idE = SubSonic.Sugar.Web.QueryString<int>("idE");
+            if (idE > 0)
+            {
+                CargarEfector(idE);
+                //acInsumoxEfector.getInsumo();
+            }
+
+            int id = SubSonic.Sugar.Web.QueryString<int>("id");
+            if (id > 0)
+            {
+                CargarPedido(id);
+            }
+        }
+        else Response.Redirect("~/FinSesion.htm", false);
+    }
+
+    private void CargarEfector(int idE)
+    {
+        SysEfector ef = new SysEfector(idE);
+        ddlEfector.SelectedValue = ef.IdEfector.ToString();
+    }
+
+    private void CargarPedido(int id)
+    {
+        //datos del encabezado del Pedido
+        InsPedido p = new InsPedido(id);
+        if (!p.IsNew)
+        {
+            UpdatePanel2.Visible = true;
+            ddlPedido.SelectedValue = p.IdTipoPedido.ToString();
+            ddlEfector.SelectedValue = p.IdEfector.ToString();
+            ddlDeposito.SelectedValue = p.IdDeposito.ToString();
+            ddlEfector.SelectedValue = p.IdEfectorProveedor.ToString();
+            txtFecha.Text = p.Fecha.ToString();
+            ddlRubro.SelectedValue = p.IdRubro.ToString();
+            //estado del pedido = Generado
+            txtObservaciones.Text = p.Observaciones;
+            txtResponsable.Text = p.Responsable;
+            //autorizado por = idUsuario
+            p.Baja = false;
+
+            SubSonic.Select pds = new Select();
+            pds.From(Schemas.InsPedidoDetalle);
+            pds.Where(InsPedidoDetalle.Columns.IdPedido).IsEqualTo(id);
+
+            gvInsumos.DataSource = pds.ExecuteTypedList<InsPedidoDetalle>();
+            gvInsumos.DataBind();
+        }
+    }
+
+    /* private void CargarGrilla()
+     {
+         SubSonic.Select p = new SubSonic.Select();
+         p.From(InsPedidoDetalle.Schema);
+         p.InnerJoin(InsInsumo.Schema);
+         p.Where(InsPedidoDetalle.Columns.Baja).IsEqualTo(0);
+
+         DataTable dt = p.ExecuteDataSet().Tables[0];
+         if (dt.Rows.Count > 0)
+         {
+             gvPedido.DataSource = dt;
+             gvPedido.DataBind();
+         }
+         gvPedido.DataBind();
+     } */
+
+    private void CargarCombo()
+    {
+        SubSonic.Select e = new SubSonic.Select();
+        e.From(SysEfector.Schema);
+        e.Where(SysEfector.Columns.Complejidad).IsGreaterThan(2);
+        ddlEfector.DataSource = e.ExecuteTypedList<SysEfector>();
+        ddlEfector.DataBind();
+        ddlEfector.Items.Insert(0, new ListItem("Seleccionar", "0"));
+
+        SubSonic.Select d = new SubSonic.Select();
+        d.From(InsDeposito.Schema);
+        d.Where(InsDeposito.Columns.Baja).IsEqualTo(0);
+        ddlDeposito.DataSource = d.ExecuteTypedList<InsDeposito>();
+        ddlDeposito.DataBind();
+        ddlDeposito.Items.Insert(0, new ListItem("Seleccionar", "0"));
+
+        SubSonic.Select tp = new SubSonic.Select();
+        tp.From(InsTipoPedido.Schema);
+        ddlPedido.DataSource = tp.ExecuteTypedList<InsTipoPedido>();
+        ddlPedido.DataBind();
+
+        SubSonic.Select r = new SubSonic.Select();
+        r.From(InsRubro.Schema);
+        r.Where(InsRubro.Columns.Padre).IsEqualTo(0);
+        //r.And(InsRubro.Columns.Baja).IsEqualTo(0);
+        r.OrderAsc("nombre");
+        ddlRubro.DataSource = r.ExecuteTypedList<InsRubro>();
+        ddlRubro.DataBind();
+        ddlRubro.Items.Insert(0, new ListItem("Seleccionar Rubro", "0"));
+
+       /* SubSonic.Select i = new SubSonic.Select();
+        i.From(InsInsumo.Schema);
+        i.InnerJoin(InsRelInsumoEfector.Schema);
+        i.Where(InsRelInsumoEfector.IdEfectorColumn).IsEqualTo(ddlEfector.SelectedValue);
+        i.And(InsInsumo.Columns.Baja).IsEqualTo(0);
+        ddlInsumo.DataSource = i.ExecuteTypedList<InsInsumo>();
+        ddlInsumo.DataBind();*/
+    }
+
+    protected void lbActualizar_Click(object sender, EventArgs e)
+    {
+        //UpdatePanel1.Visible = true;
+        int idE = Convert.ToInt32(ddlEfector.SelectedValue);
+        int idI = acInsumoxEfector.getInsumo(); //int idI = Convert.ToInt32(ddlInsumo.SelectedValue);
+        if ((idE > 0) && (idI > 0))
+        {
+            Response.Redirect("StockSuperior.aspx?idE=" + idE + "&idI=" + idI);
+        }
+        else
+        {
+            return;
+        }
+        //Response.Redirect("~/Datos.aspx?ApellidoPaterno = " + txtApePat.Tex.Trim() + " &Nombre = " + txtNombre.Text.Trim()); 
+    }
+
+    protected void btnGuardar_Click(object sender, EventArgs e)
+    {
+        SysUsuario us = new SysUsuario(Session["idUsuario"]);
+        if (!us.IsNew)
+        {
+            int id = SubSonic.Sugar.Web.QueryString<int>("id");
+            //if (DatosValidos(id)) //&& (Page.IsValid)) //Page.Validate("1");
+            if (true)
+            {
+                InsPedido p = new InsPedido(id);
+                //insp.IdEfector = 1; //por defecto el efector dek usuario
+                p.IdEfector = Convert.ToInt32(ddlEfector.SelectedValue); // para los casos en que el pedido es externo
+                p.IdEfectorProveedor = p.IdEfector;
+                p.IdDeposito = Convert.ToInt32(ddlDeposito.SelectedValue);
+                p.IdDepositoProveedor = 0;
+                p.Fecha = Convert.ToDateTime(txtFecha.Text);
+                p.IdTipoPedido = Convert.ToInt32(ddlPedido.SelectedValue);
+                p.IdRubro = Convert.ToInt32(ddlRubro.SelectedValue);
+                //verificar el tipo de pedido
+                p.IdEstadoPedido = 1; //Generado: primer estado del pedido
+                p.IdProveedor = 0;
+                p.Observaciones = txtObservaciones.Text;
+                p.Responsable = txtResponsable.Text; //deberia traer el nombre del usuario
+                p.Autorizado = false; //cuando el idEstadoPedido = 2 >> autorizado = true
+                p.Baja = false;
+
+                p.Save(us.Username);
+
+                InsMovimiento m = new InsMovimiento();
+                //copiar todos los datos aca
+                m.IdPedido = p.IdPedido;
+                m.IdEfector = p.IdEfector;
+                m.IdEfectorProveedor = p.IdEfectorProveedor;
+                m.IdDeposito = p.IdDeposito;
+                m.IdDepositoProveedor = p.IdDepositoProveedor;
+                m.Fecha = p.Fecha;
+                m.FechaRecepcion = p.FechaRecepcion;
+                m.IdTipoPedido = p.IdTipoPedido;
+                m.IdTipoComprobante = p.IdTipoComprobante;
+                m.NumeroComprobante = p.NumeroComprobante;
+                m.OrdenCompra = p.OrdenCompra;
+                m.IdRubro = p.IdRubro;
+                m.IdEstadoPedido = p.IdEstadoPedido;
+                m.IdProveedor = p.IdProveedor;
+                m.Observaciones = p.Observaciones;
+                m.Responsable = p.Responsable;
+                m.Autorizado = p.Autorizado;
+                m.Baja = p.Baja;
+                m.CreatedBy = p.CreatedBy;
+                p.CreatedOn = p.CreatedOn;
+                m.ModifiedBy = p.ModifiedBy;
+                m.ModifiedOn = p.ModifiedOn;
+                m.Save(us.Username);
+
+                InsPedidoDetalle.Delete("idPedido", id);
+                InsPedidoDetalleCollection pds = new InsPedidoDetalleCollection();
+                InsMovimientoDetalleCollection mds = new InsMovimientoDetalleCollection();
+
+                foreach (GridViewRow gvr in gvInsumos.Rows)
+                {
+                    //detalle del pedido
+                    Label lblIdPedidoDetalle = (Label)gvr.FindControl("lblIdPedidoDetalle");
+                    int idPD = Convert.ToInt32(lblIdPedidoDetalle.Text);
+
+                    InsPedidoDetalle pd = new InsPedidoDetalle(idPD);
+                    pd.IdPedido = p.IdPedido;
+
+                    pd.FechaPedido = Convert.ToDateTime(txtFecha.Text);
+
+                    Label lblIdInsumo = (Label)gvr.FindControl("lblIdInsumo");
+                    pd.IdInsumo = Convert.ToInt32(lblIdInsumo.Text);
+
+                    TextBox txtCantidad = (TextBox)gvr.FindControl("txtCantidad");
+                    //si el usuario SSS la cantidadSolicitada = cantidadAutorizada
+                    pd.CantidadSolicitada = Convert.ToInt32(txtCantidad.Text);
+                    pd.CantidadAutorizada = pd.CantidadSolicitada;
+
+                    TextBox txtObservacion = (TextBox)gvr.FindControl("txtObservacion");
+                    pd.Observacion = txtObservacion.Text;
+
+                    pd.Renglon = gvr.DataItemIndex + 1;
+                    /**/
+                    pd.CantidadEmitida = 0;
+                    pd.CantidadRecibida = 0;
+                    pd.PrecioUnitario = 0;
+                    pd.Observacion = txtObservacion.Text;
+                    pd.Baja = false;
+                    pds.Add(pd);
+                }
+                pds.SaveAll(us.Username);
+                //guardo en movimientosdetalle
+                foreach (InsPedidoDetalle item in pds)
+                {
+                    InsMovimientoDetalle md = new InsMovimientoDetalle();
+                    md.IdMovimiento = m.IdMovimiento;
+
+                    md.IdPedido = item.IdPedido;
+                    md.IdPedidoDetalle = item.IdPedidoDetalle;
+                    md.IdInsumo = item.IdInsumo;
+                    md.FechaPedido = item.FechaPedido;
+                    md.Cantidad = item.Cantidad;
+                    md.Presentacion = item.Presentacion;
+                    md.CantidadSolicitada = item.CantidadSolicitada;
+                    md.CantidadAutorizada = item.CantidadAutorizada;
+                    md.CantidadEmitida = item.CantidadEmitida;
+                    md.CantidadRecibida = item.CantidadRecibida;
+                    md.PrecioUnitario = item.PrecioUnitario;
+                    md.Stock = item.Stock;
+                    md.Observacion = item.Observacion;
+                    md.Renglon = item.Renglon;
+                    md.RenglonOC = item.RenglonOC;
+                    md.NumeroLote = item.NumeroLote;
+                    md.FechaVencimiento = item.FechaVencimiento;
+                    md.Baja = item.Baja;
+                    md.CreatedBy = item.CreatedBy;
+                    md.CreatedOn = item.CreatedOn;
+                    md.ModifiedBy = item.ModifiedBy;
+                    md.ModifiedOn = item.ModifiedOn;
+                    mds.Add(md);
+                }
+                mds.SaveAll(us.Username);
+                Response.Redirect("View.aspx?id=" + p.IdPedido.ToString());
+            }
+        }
+        else Response.Redirect("~/FinSesion.htm", false);
+    }
+
+    private bool DatosValidos(int id)
+    {
+        SubSonic.Select ped = new SubSonic.Select();
+        ped.From(InsPedido.Schema);
+        ped.Where(InsPedido.Columns.IdPedido).IsNotEqualTo(id);
+        ped.And(InsPedido.Columns.IdTipoPedido).IsNotEqualTo(1);
+        DataTable dtd = ped.ExecuteDataSet().Tables[0];
+        if (dtd.Rows.Count == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    protected void ddlRubro_SelectedIndexChanged(object sender, EventArgs e)
+    {
+     /*   int efector = Convert.ToInt32(ddlEfector.SelectedValue); //efector del usuario
+        int codigo = ddlRubro.SelectedValue.TryParseInt();
+
+        ddlInsumo.DataSource = SPs.InsGetInsumosEfectorxRubro(efector, codigo).GetDataSet();
+       ddlInsumo.DataBind();*/
+    }
+
+    protected void ddlDeposito_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void ddlEfector_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int ef = Convert.ToInt32(ddlEfector.SelectedValue);
+
+        SubSonic.Select d = new SubSonic.Select();
+        d.From(InsDeposito.Schema);
+        d.Where(InsDeposito.Columns.Baja).IsEqualTo(0);
+        d.And(InsDeposito.Columns.IdEfector).IsEqualTo(ef);
+        ddlDeposito.DataSource = d.ExecuteTypedList<InsDeposito>();
+        ddlDeposito.DataBind();
+    }
+
+    protected void btnAgregarInsumo_Click(object sender, EventArgs e)
+    {
+        UpdatePanel2.Visible = true;
+        int id = SubSonic.Sugar.Web.QueryString<int>("id");
+        InsPedidoDetalleCollection pds = new InsPedidoDetalleCollection();
+        foreach (GridViewRow gvr in gvInsumos.Rows)
+        {
+            //detalle del pedido
+            InsPedidoDetalle pd = new InsPedidoDetalle();
+            pd.IdPedido = id;
+            pd.FechaPedido = Convert.ToDateTime(txtFecha.Text);
+            //pd.IdRubro = pd.InsInsumo.IdRubro;
+
+            Label lblIdInsumo = (Label)gvr.FindControl("lblIdInsumo");
+            pd.IdInsumo = Convert.ToInt32(lblIdInsumo.Text);
+
+            TextBox txtCantidad = (TextBox)gvr.FindControl("txtCantidad");
+            pd.CantidadSolicitada = Convert.ToInt32(txtCantidad.Text);
+
+            TextBox txtObservacion = (TextBox)gvr.FindControl("txtObservacion");
+            pd.Observacion = txtObservacion.Text;
+
+            pd.Renglon = gvr.DataItemIndex + 1;
+            /**/
+            pd.CantidadAutorizada = 0;
+            pd.CantidadEmitida = 0;
+            pd.CantidadRecibida = 0;
+            pd.PrecioUnitario = 0;
+            pd.Baja = false;
+
+            pds.Add(pd);
+        }
+        int idNuevoInsumo = acInsumoxEfector.getInsumo(); // Convert.ToInt32(ddlInsumo.SelectedValue);
+        InsPedidoDetalle ipd = pds.FirstOrDefault(x => x.IdInsumo == idNuevoInsumo);
+        if (ipd == null)
+        {
+            // agrego el nuevo insumo
+            InsPedidoDetalle pd1 = new InsPedidoDetalle();
+            pd1.IdPedido = id;
+            pd1.FechaPedido = Convert.ToDateTime(txtFecha.Text);
+            pd1.IdInsumo = acInsumoxEfector.getInsumo(); //Convert.ToInt32(ddlInsumo.SelectedValue);
+            pd1.CantidadSolicitada = 1;
+            pd1.Observacion = "";
+            pd1.Renglon = 0;
+            /**/
+            pd1.CantidadAutorizada = 0;
+            pd1.CantidadEmitida = 0;
+            pd1.CantidadRecibida = 0;
+            pd1.PrecioUnitario = 0;
+            pd1.Observacion = txtObservaciones.Text;
+            pd1.Baja = false;
+
+            pds.Add(pd1);
+        }
+        else return;
+
+        Detalles = pds;
+        gvInsumos.DataSource = Detalles;
+        gvInsumos.DataBind();
+    }
+
+    protected void ibBorrar_Command(object sender, CommandEventArgs e)
+    {
+        int id = SubSonic.Sugar.Web.QueryString<int>("id");
+        InsPedidoDetalleCollection pds = new InsPedidoDetalleCollection();
+        int idInsumoBorrar = Convert.ToInt32(e.CommandArgument);
+
+        foreach (GridViewRow gvr in gvInsumos.Rows)
+        {
+            // busco el registro a eliminar o saltear
+            Label lblIdInsumo = (Label)gvr.FindControl("lblIdInsumo");
+            int idIns = Convert.ToInt32(lblIdInsumo.Text);
+            if (idIns != idInsumoBorrar)
+            {
+                //detalle del pedido
+                InsPedidoDetalle pd = new InsPedidoDetalle();
+                pd.IdPedido = id;
+                pd.FechaPedido = Convert.ToDateTime(txtFecha.Text);
+                pd.IdInsumo = idIns;
+
+                TextBox txtCantidad = (TextBox)gvr.FindControl("txtCantidad");
+                pd.CantidadSolicitada = Convert.ToInt32(txtCantidad.Text);
+
+                TextBox txtObservacion = (TextBox)gvr.FindControl("txtObservacion");
+                pd.Observacion = txtObservacion.Text;
+
+                pd.Renglon = gvr.DataItemIndex + 1;
+                /**/
+                pd.CantidadAutorizada = 0;
+                pd.CantidadEmitida = 0;
+                pd.CantidadRecibida = 0;
+                pd.PrecioUnitario = 0;
+                pd.Baja = false;
+
+                pds.Add(pd);
+            }
+        }
+
+        Detalles = pds;
+        gvInsumos.DataSource = Detalles;
+        gvInsumos.DataBind();
+    }
+}

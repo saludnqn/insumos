@@ -1,0 +1,32 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="RubrosList.aspx.cs" Inherits="Rubros_RubrosList" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <div class="divs">
+        <h2>
+            Rubros Existentes</h2>
+        <asp:GridView ID="gvRubros" runat="server" AutoGenerateColumns="false" CssClass="mGrid"
+            PagerStyle-CssClass="pgr" AlternatingRowStyle-CssClass="alt" ShowFooter="false" EmptyDataText="No hay rubros."
+                    AllowPaging="true" PageSize="15" OnPageIndexChanging="gvRubros_PageIndexChanging">
+            <Columns>
+                <asp:BoundField DataField="codigo" HeaderText="Código" />
+                <asp:BoundField DataField="Nombre" HeaderText="Rubro" />
+                <asp:BoundField DataField="rubroprimernivel" HeaderText="RubroPrimerNivel" />
+                <asp:BoundField DataField="padre" HeaderText="Rubro Padre" />
+                <asp:TemplateField HeaderText="Ver Rubro">
+                    <ItemTemplate>
+                        <a href="View.aspx?id=<%# Eval("IdRubro") %>" title="Ver Rubro">
+                            <img id="imgView" alt="Ver Rubro Completo" border="0" src="../App_Themes/Default/images/search.png" />
+                        </a>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+        </asp:GridView>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+<%--    <asp:Button ID="btnNuevo" runat="server" Text="Nuevo Rubro" OnClick="btnNuevo_Click" />
+--%>    <input type="button" value="Volver" title="Volver a la página anterior" onclick="history.go(-1)" />
+</asp:Content>

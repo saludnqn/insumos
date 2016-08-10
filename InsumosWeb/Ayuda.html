@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sistema de Farmacia - Ayuda</title>
+    <link href="App_Themes/default/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="header">
+        <div class="container">
+            <h1>
+                <a href="#" title="Suministros Web">SUMINISTROS<span></span></a></h1>
+            <div class="Usr">
+            </div>
+            <!-- top navigation -->
+            <ul id="navigation">
+                <li><a href="../Default.aspx" title="Menú Principal de Insumos Web"><b>Inicio</b></a></li>
+                <li><a href="CerrarSesion.aspx" title="Cerrar Sesión"><b>Salir</b></a></li>
+                <li><a href="Ayuda.html" title="Ayuda"><b>Ayuda</b></a></li>
+            </ul>
+            <hr />
+            <!-- banner message and building background -->
+            <div id="banner">
+                Módulo Insumos Web - SIPs
+            </div>
+            <hr />
+        </div>
+    </div>
+    <br />
+    <div id="main" class="container">
+        <!-- main content area -->
+        <div id="center">
+            <div class="divs">
+                <table style="font-weight: bold; width: 50%">
+                    <tr>
+                        <td>
+                            Indice de Contenidos
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                             Este módulo de Farmacia funcionará de manera local en cada Hospital. Es exclusivo
+                            para la recepción, movimientos y dispensación de Medicamentos a los Pacientes en el Hospital. Podremos configurar las áreas
+                            o depósitos que realizarán los movimientos internos de medicamentos.<br />
+                            Este módulo ofrece también la posibilidad de recepcionar pedidos de medicamentos
+                            enviados a través del Sistema Integrado de Insumos.<br />
+                            El listado de medicamentos incluídos en el sistema corresponde al Listado Unico de Medicamentos de la Provincia.
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Requisitos de Uso del Sistema<br />
+                            <ul>
+                                <li><a href="#permisos">.Permisos de Usuario</a></li>
+                                <li><a href="#stock">.Stock previo</a></li>
+                                <li><a href="#uso">.Uso del Sistema Integrado</a></li>
+                            </ul>
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Configuración<br />
+                            <ul>
+                                <li><a href="#deposito">.Creación de Depósitos</a></li>
+                                <li><a href="#proveedor">.Alta de Proveedores</a></li>
+                                <li><a href="#dosis">.Dosificación de Medicamentos</a></li>
+                                <li><a href="#asocia">.Asociación de Medicamentos</a></li>
+                            </ul>
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Provisiones<br />
+                            <ul>
+                                <li><a href="#recepcion">.Recepción de Medicamentos</a></li>
+                                <li><a href="#ajuste">.Ajustes de Stock</a></li>
+                            </ul>
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Pedidos<br />
+                            <ul>
+                                <li><a href="#internos">.Internos de Medicamentos</a></li>
+                                <li><a href="#externos">.Externos de Medicamentos</a></li>
+                            </ul>
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Dispensaciones<br />
+                            <ul>
+                                <li><a href="#ambulatoria">.Ambulatoria</a></li>
+                                <li><a href="#internacion">.Internación</a></li>
+                                <li><a href="#rapida">.Rápida</a></li>
+                                <li><a href="#botiquin">.Botiquines Internos</a></li>
+                            </ul>
+                            <br />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div class="divs">
+                <h2>
+                    Requisitos Previos</h2>
+                <b><a name="permisos">.Permisos de Usuario: </a></b>Para poder hacer uso del Sistema de Farmacia, debemos
+                contar con un perfil de usuario que posea los permisos necesarios para acceder al
+                módulo. Para contar con un usuario debemos registrarnos y solicitar un usuario y
+                clave del sistema.
+                <br />
+                <b><a name="stock">.Stock Previo: </a></b>Debemos tener en claro el stock actual de los medicamentos
+                en el efector a la fecha, para ser ingresadas y luego contabilizadas por el sistema.
+                Esto es requisito fundamental, ya que el sistema empezará a dispensar y descontar
+                del stock ingresado.
+                <br />
+                <b><a name="uso">.Uso del Sistema Integrado: </a></b>Requiere tambien el previo uso del sistema Integrado
+                en los pedidos de medicamentos a Abastecimientos, para luego ser capturados por
+                el sistema y así facilitar su ingreso en el depósito como Provisiones Externas.
+                <br />
+                <br />
+                <h2>
+                    Configuración</h2>
+                <b><a name="deposito">.Creación de Depósitos: </a></b>Debemos crear el depósito general del hospital, que
+                será el lugar donde se recepcionan los medicamentos. Una vez creado el depósito,
+                podremos crear nuevos depósitos o áreas, desde donde podrán realizarse diferentes
+                movimientos de los medicamentos dentro del efector. Esto facilitará el conocimiento
+                interno del stock en cada área o depósito. Los depósitos podrán o no estar vinculados
+                a un Servicio del hospital. En caso afirmativo nos permitirá informar que medicamentos
+                tuvieron movimientos dentro de cada Servicio. Esto es posible a traves de la pantalla
+                de <b>Configuración -> Depósitos.</b><br />
+                En la creación de los depósitos debemos seleccionar el tipo de depósito a crear;
+                ellos son: Dipensación o Depósito.<br />
+                <b>-Dispensación:</b> Serán aquellas áreas donde la dispensa se realiza a un paciente
+                en particular. Puede ser en Ambulatoria o Internación.<br />
+                <b>-Depósito:</b> Serán aquellas áreas donde no se dispensa a pacientes, sino que
+                mantendremos un stock para ser usado en diferentes servicios.<br />
+                <b><a name="proveedor">.Alta o Ingreso de Proveedores: </a></b>Desde el menú de opciones ingresaremos a
+                Proveedores. Estos proveedores son necesarios para poder realizar el ingreso de
+                medicamentos al stock del efector.<br />
+                <b><a name="dosis">.Dosificación de Medicamentos: </a></b>El registro de la dosificación de medicamentos
+                permitirá agilizar dicha dosificación en la dispensa al paciente.
+                <br />
+                <b><a name="asocia">.Asociación de Medicamentos: </a></b>La funcionalidad permite dispensar un medicamento
+                de acción terapéutica similar para reemplazar aquel que no poseemos en stock.<br />
+                <b>Nota: </b>Cabe aclarar que el sistema solo permitirá movimientos de insumos incluídos
+                en el Rubro Medicamentos del Sistema Integrado.<br />
+                En el caso de no encontrar el medicamento solicitado deberá comunicarse con la Dirección
+                de Abastecimientos. Así mismo el sistema no permitirá el ingreso de nuevos insumos
+                o medicamentos.
+                <br />
+                <a href="#top" style="float:right;">Volver Arriba</a>
+                <br />
+                <h2>
+                    Provisiones</h2>
+                <b><a name="recepcion">.Recepción de Medicamentos: </a></b>Será posible la recepción de los medicamentos
+                de manera manual y automatica.<br />
+                <b>-Automática: </b>Será posible usar esta funcionalidad en los casos que se hayan
+                realizado pedidos de medicamentos a travez del Sistema Integrado. Y cuando el pedido
+                esté <b>despachado</b> podremos recibirlo por sistema y sumarlo al stock del efector.<br />
+                <b>-Manual: </b>La funcionalidad estará disponibles para otros casos de ingresos
+                de medicamentos, por ejemplo: compras internas del efector, envios de botiquines
+                y otras recepciones de medicamentos. Debemos tener en cuenta que los proveedores
+                que realizan los envios deben estar ingresados en el sistema.<br />
+                Accedemos desde el menú <b>Provisiones -> Recepciones Internas</b> para los casos
+                de movimientos internos al efector de medicamentos.<br />
+                <b>.Provisiones -> Recepciones Externas</b> para los casos de recepción de un pedido
+                realizado en el Sistema Integrado.<br />
+                <b><a name="ajuste">.Ajustes de Stock: </a></b>Permite realizar un blanqueo o ajuste de las cantidades
+                de medicamentos en stock. Accedemos desde <b>Menú -> Provisiones -> Ajuste Stock.</b>
+                <br />
+                <br />
+                <h2>
+                    Pedidos</h2>
+                <b><a name="internos">.Pedidos Internos de Medicamentos: </a></b>Permite realizar pedidos entre áreas o
+                depósitos del efector, transparentando los movimientos internos de los medicamentos.
+                Cada pedido deberá completar su proceso dentro del sistema.<br />
+                Los pasos a cumplir son:
+                <ul>
+                    <li>-Generar Pedido</li>
+                    <li>-Autorizar Pedido</li>
+                    <li>-Asignar cantidades al Pedido</li>
+                    <li>-Autorizar y Enviar Pedido (por sistema)</li>
+                    <li>-Chequear estado y recepcionar</li>
+                </ul>
+                <b><a name="externos">.Pedidos Externos de Medicamentos: </a></b>En los casos de los pedidos de medicamentos
+                externos se deberán realizar a travez del Sistema Integrado.<br />
+                <a href="#top" style="float:right;">Volver Arriba</a>
+                <br />
+                <h2>
+                    Dispensaciones</h2>
+                Para poder dispensar medicamentos a Pacientes debemos tener creado nuestro depósito
+                Farmacia Ambulatoria e Internación.<br />
+                <b><a name="ambulatoria">.Dispensación Ambulatoria: </a></b>Permite dispensar medicamentos desde la ventanilla
+                a los Pacientes. Es necesario conocer el <b>Nro de Documento</b> del paciente para
+                identificarlo y dispensar asi los medicamentos solicitados. El sistema también ofrece
+                la opción de búsqueda por Apellido y Nombre como parámetro de identificación.<br />
+                Accedemos a la opción desde el <b>Menú -> Farmacia -> Farmacia Ambulatoria</b><br />
+                En esta pantalla de dispensación ambulatoria podremos configurar el tratamiento, ingresar y dosificar los medicamentos
+                solicitados, diagnóstico y profesional que realizó la receta.<br />
+                -La configuración del tratamiento permite distinguir entre un Largo Tratamiento o Tratamiento para Crónicos y el Tratamiento Ambulatorio, siendo este el común de dispensa en ventanilla.
+                <br />
+                 -La dosificación será posible con la configuración previa de la dosis en la Configuración.<br />
+                 -La codificación del diagnóstico será con el estándar CIE10.<br />
+                 -Los Profesionales disponibles para la firma de la prescripción, serán todos aquellos ingresados al Sips.<br />
+                 El sistema ofrece la opción de chequear en <b>Recetas Anteriores</b>, donde podremos ver las dispensas anteriormente realizadas en el efector a un paciente en particular, con los agregados de <b>Ver</b> y <b>Duplicar</b> las recetas facilitando así la dispensa.<br />
+                 Otra funcionalidad disponible es <b>Patologías Previas</b>, donde podremos chequear los ultimos diagnósticos codificados de cronicidad en el Hospital Provincial.<br />
+                 <b>Medicación Anterior </b>permite ver las dispensas realizadas anteriormente al paciente. 
+                <br />
+                <b><a name="internacion">.Dispensación Internación: </a></b>Permite dispensar medicamentos a pacientes internados registrados en el Sips. En la identificación del paciente el sistema buscará si el mismo está internado, si lo está podremos dispensarle medicamentos, en el caso contrario no podremos dispensarle medicamentos.<br />
+                Las funcionalidades disponibles son muy similares a las de la Dispensa Ambulatoria con el adicional de que, desde esta pantalla, podremos acceder al <b>Mapa de Camas</b> del Sistema del hospital.<br />
+                <b><a name="rapida">.Dispensa Rápida: </a></b>Es una pantalla ágil y reducida de dispensa al paciente en ventanilla.<br />
+                <b><a name="botiquin">Botiquines Internos: </a></b>Permite enviar medicamentos a las áreas o depósitos del efector vinculados a un servicio. Esto nos ayudará a chequear qué y cuánto medicamento
+                poseen en stock los botiquines internos del hospital.<br />                 
+                <b>Nota: </b>Todas las formas presentadas de dispensacion al paciente descontarán el stock actual de cada área o depósito.<br />
+                <a href="#top" style="float:right;">Volver Arriba</a>
+                <br />
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="container">
+            <a id="designby" href="http://www.saludnqn.gob.ar/" title="Portal de Salud de la Provincia">
+                Dirección de Tecnologías en la Información y la Comunicación en Salud - TICS</a>
+            <ul id="footer_navigation">
+                <li><a href="../Default.aspx" title="Menú Principal de Insumos Web"><b>Inicio</b></a></li>
+                <li><a href="../CerrarSesion.aspx" title="Cerrar Sesión"><b>Salir</b></a></li>
+                <li><a href="Ayuda.html" title="Ayuda"><b>Ayuda</b></a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

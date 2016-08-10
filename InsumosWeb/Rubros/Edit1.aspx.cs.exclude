@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using DalInsumos;
+using System.Data;
+
+public partial class Rubros_Edit1 : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (IsPostBack) return;
+        //id para edicion
+        int id = SubSonic.Sugar.Web.QueryString<int>("id");
+        CargarCombos();
+        if (id > 0)
+        {
+            CargarRubros(id);
+        }
+    }
+
+    private void CargarRubros(int id)
+    {
+       InsRubro r = new InsRubro(id);
+        if (!r.IsNew)
+        {
+            txtRubro.Text = r.Nombre;
+            txtDescripcion.Text = r.Descripcion;
+            ddlRubros.SelectedValue = r.IdRubroPadre.ToString();
+        }
+    }
+
+    private void CargarCombos()
+    {
+        SubSonic.Select rub = new SubSonic.Select();
+        rub.From(InsRubro.Schema);
+        ddlRubros.DataSource = rub.ExecuteTypedList<InsRubro>();
+        ddlRubros.DataBind();
+        ddlRubros.Items.Insert(0, new ListItem("NINGUNO", "0"));
+    }
+
+    protected void btnGuardar_Click(object sender, EventArgs e)
+    {
+        int id = SubSonic.Sugar.Web.QueryString<int>("id");
+        // Page.Validate("1");
+        if (DatosValidos(id))//&& (Page.IsValid))
+        {
+            InsRubro ru = new  InsRubro(id);
+
+            ru.Nombre = txtRubro.Text;
+            ru.Descripcion = txtDescripcion.Text;
+            ru.IdEfector = 1; //efector de prueba
+            ru.IdRubroPadre = Convert.ToInt32(ddlRubros.SelectedValue);
+            ru.RubroPrimerNivel = 0; //chequear esto
+            ru.Baja = false;
+            ru.Save();
+            //ahora guardo en Insumos_Rubros
+            InsumosRubro ru2 = new InsumosRubro();
+            ru2.Nombre = txtRubro.Text;
+            ru2.RubroPrimerNivel = Convert.ToInt32(ddlRubros.SelectedValue);
+            ru2.Sistema = 1;
+            ru2.Padre = Convert.ToInt32(ddlRubros.SelectedValue);
+            ru2.Especial = 0;
+            if (DatosValidos2(txtRubro.Text)) ru2.Save();
+            Response.Redirect("View.aspx?id=" + ru.IdRubro.ToString());
+        }
+    }
+
+    private bool DatosValidos(int id)
+    {
+        SubSonic.Select r = new SubSonic.Select();
+        r.From(InsRubro.Schema);
+        r.Where(InsRubro.Columns.IdRubro).IsNotEqualTo(id);
+        DataTable dtd = r.ExecuteDataSet().Tables[0];
+        if (dtd.Rows.Count > 0)
+        {
+            return true;
+        }
+        return true;
+    }
+
+    private bool DatosValidos2(string nombre)
+    {
+        string rubro = txtRubro.Text;
+
+        SubSonic.Select ru = new SubSonic.Select();
+        ru.From(InsumosRubro.Schema);
+        ru.Where(InsumosRubro.Columns.Nombre).IsNotEqualTo(rubro);
+        DataTable dtd2 = ru.ExecuteDataSet().Tables[0];
+        if (dtd2.Rows.Count > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+}

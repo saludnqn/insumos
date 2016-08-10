@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Web.UI.WebControls;
+using DalInsumos;
+using SubSonic;
+using Salud.Security.SSO;
+
+
+public partial class Alarmas_List : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (IsPostBack) return;
+        CargarAlarmas();
+    }
+
+    private void CargarAlarmas()
+    {
+        int idEfector = SSOHelper.CurrentIdentity.IdEfector;
+
+        SubSonic.Select a = new Select();
+        a.From(InsGetAlarma.Schema);
+        a.And(InsAlarma.IdEfectorColumn).IsEqualTo(idEfector);
+
+
+        gvAlarmas.DataSource = a.ExecuteTypedList<InsGetAlarma>();
+        gvAlarmas.DataBind();
+    }
+
+    protected void gvAlarmas_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            //bindeo la segunda grilla
+            int idI = Convert.ToInt32(e.Row.Cells[1].Text);
+            hfIdInsumo.Value = idI.ToString();
+            GridView gv = (GridView)e.Row.FindControl("gvInsumo");
+
+            SubSonic.Select i = new Select();
+            i.From(InsGetInsumo.Schema);
+            i.Where(InsGetInsumo.Columns.IdInsumo).IsEqualTo(idI);
+            i.OrderDesc("fechaVencimiento");
+
+            List<InsGetInsumo> tmd = i.ExecuteTypedList<InsGetInsumo>();
+            gv.DataSource = tmd;
+            gv.DataBind();
+        }
+    }
+}

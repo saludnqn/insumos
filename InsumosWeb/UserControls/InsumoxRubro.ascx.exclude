@@ -1,0 +1,115 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="InsumoxRubro.ascx.cs" Inherits="UserControls_InsumoxRubro" %>
+
+<script type="text/javascript" src="../js/dough.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        if (document.cookie) {
+            var cookies = document.cookie.split('; ');
+
+            $.each(cookies, function(index, cookie) {
+                cookie = cookie.split('=');
+
+                $('<div/>', {
+                    id: cookie[0],
+                    html: $('<p/>', {
+                        html: 'cookie name: <strong class="name">' + cookie[0] + '</strong> cookie value:  <strong class="value">' + cookie[1] + '</strong> '
+                    })
+                }).appendTo('#cookie');
+
+                $('<a/>', {
+                    href: '#',
+                    text: 'remove cookie',
+                    click: function() {
+                        $.dough(cookie[0], 'remove');
+                        $('#' + cookie[0]).fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                        return false;
+                    }
+                }).appendTo('#' + cookie[0] + ' p');
+            });
+        }
+
+        $('#create_cookie').click(function() {
+            if ($('#' + $('#cookie_name').val()).length) {
+                $('#' + $('#cookie_name').val() + ' .value').html($('#cookie_value').val());
+                $.dough($('#cookie_name').val(), $('#cookie_value').val());
+            } else {
+                $.dough($('#cookie_name').val(), $('#cookie_value').val());
+                $('<div/>', {
+                    id: $('#cookie_name').val(),
+                    html: $('<p/>', {
+                        html: 'cookie name: <strong class="name">' + $('#cookie_name').val() + '</strong> cookie value:  <strong class="value">' + $('#cookie_value').val() + '</strong> '
+                    })
+                }).appendTo('#cookie');
+
+                $('<a/>', {
+                    href: '#',
+                    text: 'remove cookie',
+                    click: function() {
+                        $.dough($('#cookie_name').val(), 'remove');
+                        $('#' + $('#cookie_name').val()).fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                        return false;
+                    }
+                }).appendTo('#' + $('#cookie_name').val() + ' p');
+            }
+            return false;
+        });
+    });
+
+    $(function() {
+        var idru = $('#<%= hfIdRubro.ClientID %>').val();
+        $('#<%= txtAutoI.ClientID %>').autocomplete({ source: '<%= ResolveUrl("~/Services/InsumoxRubro.ashx") %>' + '?idrubro=' + idru, minlenght: 5,
+            focus: function(event, ui) {
+                $("#<%= txtAutoI.ClientID %>").val(ui.item.nombre);
+                // alert(document.getElementById("ctl00_Cuerpo_acInsumoxRubro_hfIdRubro").value);
+                return false;
+            },
+            select: function(event, ui) {
+                if (ui.item.id != -1) {
+                    $("#<%= txtAutoI.ClientID %>").val(ui.item.nombre);
+                    $('#<%= lblNombre.ClientID %>').text(ui.item.nombre);
+                    $('#<%= lblCodigo.ClientID %>').val("(" + ui.item.codigo + ")");
+                    $("#<%= idIns.ClientID %>").val(ui.item.id);
+                    //ui.item.idrubro
+                }
+                return false;
+            }
+        }).data("autocomplete")._renderItem = function(ul, item) {
+            return $("<li></li>")
+				.data("item.autocomplete", item)
+				.append("<a> (" + item.nombre + ") &nbsp;" + item.codigo + " </a>")
+				.appendTo(ul);
+        };
+
+        $('#hlLimpiarI').button({ icons: { primary: "ui-icon-cancel" }, text: false });
+    });
+
+  function LimpiarPrincipalI() {
+    $("#<%= txtAutoI.ClientID %>").val('');
+    $('#<%= lblNombre.ClientID %>').text('Ingrese nombre o código del Insumo.');
+    $('#<%= lblCodigo.ClientID %>').val('');
+    $("#<%= idIns.ClientID %>").val('');
+  }
+</script>
+
+<table class="autoComplete">
+  <tr>
+    <td>
+      <asp:TextBox runat="server" ID="txtAutoI" Columns="100" ToolTip="Ingrese nombre o código del Insumo" />
+    </td>
+    <td>
+      <a href="javascript:LimpiarPrincipalI();" id="hlLimpiarI" style="height: 18px; width: 20px;" title="Eliminar Item actual" >
+      <asp:Image ToolTip="Eliminar" runat="server" ID="imgLimpiarI" ImageAlign="AbsMiddle" ImageUrl="~/App_Themes/Default/images/textfield_delete.png" AlternateText="Borrar valor" /></a>
+    </td>
+  </tr>
+</table>
+<div id="acResult">
+  <asp:HiddenField ID="idIns" runat="server" />
+  <asp:HiddenField ID="hfIdRubro" runat="server" />
+  <b>Nombre:</b> <asp:Label runat="server" ID="lblNombre" Text="Ingrese nombre o código del Insumo."></asp:Label>
+  <b>-</b> <asp:Label runat="server" ID="lblCodigo" Text=""></asp:Label>
+</div>

@@ -1,0 +1,72 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="View.aspx.cs" Inherits="Insumos_View" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <div class="divs">
+        <h2>
+            Datos del Insumo</h2>
+        <table width="60%">
+            <tr>
+                <td><br />
+                    Nombre Insumo:
+                    <asp:Label ID="lblInsumo" runat="server"></asp:Label><asp:HiddenField ID="hlInsumo"
+                        runat="server" />
+                </td>
+                <td>
+                    Rubro:
+                    <asp:Label ID="lblRubro" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Descripción:
+                    <asp:Label ID="lblDescripcion" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Observaciones:
+                    <asp:Label ID="lblObservaciones" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Unidad de Medida:
+                    <asp:Label ID="lblUnidad" runat="server"></asp:Label>
+                </td>
+                <td>
+                    Código Remediar:
+                    <asp:Label ID="lblCodigo" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <asp:Label ID="lblVencimiento" runat="server"></asp:Label>
+                    &nbsp;&nbsp;&nbsp;
+                    <asp:Label ID="lblInsumoComun" runat="server"></asp:Label>
+                    &nbsp;&nbsp;&nbsp;
+                    <asp:Label ID="lblNecesitaReceta" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <asp:ImageButton ID="hlDatosfarmacia" runat="server" OnClick="hlDatosfarmacia_Click"
+                        ToolTip="Ingresar Datos Farmacéuticos al Medicamento seleccionado." ImageUrl="~/App_Themes/Default/images/datosfar.png" />
+                </td>
+                <td align="center">
+                    <asp:ImageButton ID="hlAlarma" runat="server" OnClick="hlDatosalarma_Click" ToolTip="Ingresar Datos de Alarma al Medicamento seleccionado."
+                        ImageUrl="~/App_Themes/Default/images/alarmita.png" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+    <input type="button" value="Volver" title="Volver a la página anterior" onclick="history.go(-1)" />
+</asp:Content>

@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using DalInsumos;
+using System.Data;
+using System.Web.UI.HtmlControls;
+
+public partial class Pedidos_Edit : System.Web.UI.Page
+{
+    public int idPedido
+    {
+        get { return ViewState["idPedido"] == null ? 0 : Convert.ToInt32(ViewState["idPedido"]); }
+        set { ViewState["idPedido"] = value; }
+    }
+
+    public int idInsumo
+    {
+        get { return ViewState["idInsumo"] == null ? 0 : Convert.ToInt32(ViewState["idInsumo"]); }
+        set { ViewState["idInsumo"] = value; }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (IsPostBack) return;
+        txtFecha.Text = DateTime.Now.ToShortDateString();
+        CargarCombo();
+        CargarGrilla();
+        //UpdatePanel1.Visible = false;
+    }
+
+    private void CargarGrilla()
+    {
+        SubSonic.Select p = new SubSonic.Select();
+        p.From(InsPedidoDetalle.Schema);
+        p.InnerJoin(InsInsumo.Schema);
+        p.Where(InsPedidoDetalle.Columns.Baja).IsEqualTo(0);
+
+        //DataTable dt = p.ExecuteDataSet().Tables[0];
+        //if (dt.Rows.Count > 0)
+        //{
+        //    gvPedido.DataSource = dt;
+        //    gvPedido.DataBind();
+        //}
+        //gvPedido.DataBind();
+    }
+
+    private void CargarCombo()
+    {
+        SubSonic.Select tp = new SubSonic.Select();
+        tp.From(InsTipoPedido.Schema);
+        ddlPedido.DataSource = tp.ExecuteTypedList<InsTipoPedido>();
+        ddlPedido.DataBind();
+        //ddlPedido.Items.Insert(0, new ListItem("Seleccionar", "0"));
+    }
+
+    protected void chkEliminar_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox c = (CheckBox)sender;
+        int idRel = int.Parse(c.Attributes["idRel"]);
+        int idProfesional = int.Parse(c.Attributes["idProfesional"]);
+        SysUsuario us = new SysUsuario(Session["idUsuario"]);
+        if (c.Checked)
+        {
+            // Asociar profesional
+            SysRelProfesionalEfector rpe = new SysRelProfesionalEfector();
+            rpe.IdEfector = us.IdEfector;
+            rpe.IdProfesional = idProfesional;
+            rpe.Save(us.IdUsuario);
+        }
+        else
+        {
+            // borrar asociacion
+            SysRelProfesionalEfector.Delete(idRel);
+        }
+        CargarGrilla();
+    }
+
+    /*  protected void ScriptManager_AsyncPostBackError(object sender, AsyncPostBackErrorEventArgs e)
+      {
+          if (e.Exception.Data["ExtraInfo"] != null)
+          {
+              ToolkitScriptManager1.AsyncPostBackErrorMessage =
+                     e.Exception.Message +
+                     e.Exception.Data["ExtraInfo"].ToString();
+          }
+          else
+          {
+              ToolkitScriptManager1.AsyncPostBackErrorMessage =
+                  "Error Inesperado!";
+          }
+      } */
+
+    protected void lbActualizar_Click(object sender, EventArgs e)
+    {
+        //    UpdatePanel1.Visible = true;
+        /* DataTable pac = SPs.TabGetPaciente(dni, zona, efector, prof, finicio, ffin).GetDataSet().Tables[0];
+         if (pac.Rows.Count > 0)
+         {
+             GridView1.DataSource = pac;
+             GridView1.DataBind();
+             lblCantidad.Text = "Pacientes registrados: " + pac.Rows.Count.ToString();
+         }
+         else
+         {
+             lblCantidad.Text = "No existen registros";
+             GridView1.DataBind();
+         } */
+    }
+
+    protected void btnGuardar_Click(object sender, EventArgs e)
+    {
+        int id = SubSonic.Sugar.Web.QueryString<int>("id");
+        // Page.Validate("1");
+        if (DatosValidos(id)) //&& (Page.IsValid))
+        {
+            InsPedido insp = new InsPedido(id);
+            //insp.IdEfector = 1; //por defecto el efector dek usuario
+            insp.IdEfector = Efector.getId(); // para los casos en que el pedido es externo
+            insp.IdDeposito = 1; //este es el deposito del efector seleccionado arriba
+            insp.Fecha = Convert.ToDateTime(txtFecha.Text);
+            insp.IdTipoPedido = Convert.ToInt32(ddlPedido.SelectedValue);
+            //verificar el tipo de pedido
+            insp.IdEstadoPedido = 1; //Generado: primer estado del pedido
+            insp.IdProveedor = 0;
+            insp.Observaciones = txtObservaciones.Text;
+            insp.Responsable = "Juan Perez";
+            insp.Autorizado = false; //cuando el idEstadoPedido = 2 >> autorizado = true
+            insp.Baja = false;
+            insp.Save();
+            InsPedidoDetalle inspd = new InsPedidoDetalle();
+            inspd.IdPedido = insp.IdPedido;
+            //detalle del pedido
+            HtmlTable tdetalles = (HtmlTable)acInsumo.FindControl("tbCodigosMedicamento");
+            HiddenField idInsumos = (HiddenField)acInsumo.FindControl("idInsumos");
+            string[] s = idInsumos.Value.Split(',');
+            for (int i = 1; i <= s.Length; i++)
+            {
+                HtmlTableRow tr = (HtmlTableRow)tdetalles.FindControl(s[i].ToString());
+                HtmlInputText txt = (HtmlInputText)tdetalles.FindControl("txt_cant_" + s[i].ToString());
+                //(HtmlInputText)tr.Cells[4].FindControl("txt_cant_" + s[i].ToString());
+                string cant = txt.Value;
+            }
+            foreach (HtmlTableRow item in tdetalles.Rows)
+            {
+                string ss = string.Empty;
+                ss = item.Cells[0].ToString();
+            }
+            inspd.CantidadAutorizada = 0;
+            inspd.CantidadEmitida = 0;
+            inspd.CantidadRecibida = 0;
+            inspd.PrecioUnitario = 0;
+            inspd.FechaPedido = Convert.ToDateTime(txtFecha.Text);
+            inspd.Observacion = txtObservaciones.Text;
+            inspd.Renglon = 1; // se debe generar solo, aun no lo hace
+            inspd.Baja = false;
+            inspd.Save();
+            Response.Redirect("View.aspx?id=" + insp.IdPedido.ToString());
+        }
+    }
+
+    private bool DatosValidos(int id)
+    {
+        SubSonic.Select ped = new SubSonic.Select();
+        ped.From(InsPedido.Schema);
+        ped.Where(InsPedido.Columns.IdPedido).IsNotEqualTo(id);
+        DataTable dtd = ped.ExecuteDataSet().Tables[0];
+        if (dtd.Rows.Count > 0)
+        {
+            return true;
+        }
+        return true;
+    }
+}

@@ -1,0 +1,31 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage2.master.cs" Inherits="MasterPage2" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head id="Head1" runat="server">
+    <title></title>
+    <%--Sólo para cuestiones de diseño--%>
+    <link href="/Themes/Classic/Classic.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="StylesPlaceHolder" runat="server" />
+</head>
+<body id="MasterPageBody">
+    <form id="Form" runat="server">
+    <div id="HeaderOuterDiv">
+    </div>
+    <div id="HeaderInnerDiv">
+        <asp:ContentPlaceHolder ID="HeaderPlaceHolder" runat="server" />
+    </div>
+    <div id="ContentOuterDiv">
+        <div id="ContentInnerDiv">
+            <asp:ContentPlaceHolder ID="ContentBodyPlaceHolder" runat="server" />
+        </div>
+    </div>
+    <div id="FooterOuterDiv">
+        <div id="FooterInnerDiv">
+            <asp:ContentPlaceHolder ID="FooterPlaceHolder" runat="server" />
+        </div>
+    </div>
+    </form>
+</body>
+</html>

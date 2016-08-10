@@ -1,0 +1,101 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="AjusteStock.aspx.cs" Inherits="PedidosH_AjusteStock" %>
+
+<%@ Register Src="~/UserControls/InsumoxEfector.ascx" TagName="acInsumoxEfector"
+    TagPrefix="uc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="Encabezado" runat="Server">
+
+    <script type="text/javascript" src="../js/Format.js"></script>
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="../js/jquery-ui-1.8.16.custom.min.js"></script>
+
+    <script type="text/javascript" src="../js/json2.js"></script>
+
+    <link href="../App_Themes/Default/redmond/jquery.ui.all.css" rel="stylesheet" type="text/css" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <div class="divs">
+        <h2>
+            Ajuste de Stock por Insumo</h2>
+        <table width="99%">
+            <tr>
+                <td colspan="2">
+                    Depósito Actual:
+                    <asp:DropDownList ID="ddlDeposito" runat="server" DataValueField="idDeposito" DataTextField="Nombre"
+                        ToolTip="Seleccionar el depósito" AutoPostBack="true" OnSelectedIndexChanged="ddlDeposito_SelectedIndexChanged">
+                    </asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Tipo Pedido:
+                    <asp:Label ID="lblTPedido" runat="server"></asp:Label>
+                </td>
+                <td>
+                    Fecha:
+                    <asp:Label ID="lblFecha" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Responsable:
+                    <asp:Label ID="lblResponsable" runat="server" ToolTip="Usuario que ejecuta la acción"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Observaciones:
+                    <asp:TextBox ID="txtObservaciones" runat="server" TextMode="MultiLine" Rows="2" Width="80%"
+                        ToolTip="Observaciones del Ajuste"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Búsqueda del Insumo:
+                    <uc1:acInsumoxEfector ID="acInsumoxEfector" runat="server" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <div class="divs">
+        <div>
+            <asp:GridView ID="gvTodos" runat="server" Width="60%" AutoGenerateColumns="false" CssClass="mGrid" Font-Names="tahoma" PagerStyle-CssClass="pgr" AlternatingRowStyle-CssClass="alt"
+                 AllowPaging="true">
+                <Columns>
+                    <asp:BoundField DataField="idInsumo" HeaderText="Insumo" Visible="false" />
+                    <asp:TemplateField HeaderText="Insumo">
+                        <ItemTemplate>
+                            <asp:Label ID="lblInsumo" runat="server" Text='<%# Eval("insumo") %>' Title='<%# Eval("Unidad") %>' />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="Lote" HeaderText="Lote" />
+                    <asp:BoundField DataField="vencimiento" HeaderText="Vencimiento" />
+                    <asp:BoundField DataField="cantidadRecibida" HeaderText="Recibido" />
+                    <asp:BoundField DataField="stock" HeaderText="Stock" />
+                    <asp:TemplateField HeaderText="Seleccionar">
+                        <ItemTemplate>
+                            <asp:CheckBox ID="ckSeleccionar" runat="server" ToolTip="Seleccionar insumo" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
+        </div>
+        <div style="float: left; margin-left: 10px;">
+            <asp:GridView ID="gvInsumos" runat="server" Width="35%" AutoGenerateColumns="true"
+                CssClass="mGrid" Font-Names="tahoma">
+            </asp:GridView>
+        </div>
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+    <asp:Button ID="btnGuardar" runat="server" Text="Guardar" ToolTip="Click para Guardar y Ajustar stock"
+        OnClick="btnGuardar_Click" />
+    &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Cancelar" title="Cancelar" onclick="history.go(-1)" />
+    &nbsp;&nbsp;&nbsp;
+    <asp:Button ID="btnNuevo" runat="server" Text="Nuevo Ajuste" ToolTip="Click para realizar un nuevo Ajuste"
+        OnClick="btnNuevo_Click" />
+</asp:Content>

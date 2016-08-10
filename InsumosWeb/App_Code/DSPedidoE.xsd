@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DSPedidoE" targetNamespace="http://tempuri.org/DSPedidoE.xsd" xmlns:mstns="http://tempuri.org/DSPedidoE.xsd" xmlns="http://tempuri.org/DSPedidoE.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="SIntegralHDevConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="SIntegralHDevConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.SIntegralHDevConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DSPedidoE" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DSPedidoE" msprop:Generator_DataSetName="DSPedidoE">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DTPedidoE" msprop:Generator_UserTableName="DTPedidoE" msprop:Generator_RowDeletedName="DTPedidoERowDeleted" msprop:Generator_RowChangedName="DTPedidoERowChanged" msprop:Generator_RowClassName="DTPedidoERow" msprop:Generator_RowChangingName="DTPedidoERowChanging" msprop:Generator_RowEvArgName="DTPedidoERowChangeEvent" msprop:Generator_RowEvHandlerName="DTPedidoERowChangeEventHandler" msprop:Generator_TableClassName="DTPedidoEDataTable" msprop:Generator_TableVarName="tableDTPedidoE" msprop:Generator_RowDeletingName="DTPedidoERowDeleting" msprop:Generator_TablePropName="DTPedidoE">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="idPedido" msprop:Generator_UserColumnName="idPedido" msprop:Generator_ColumnPropNameInRow="idPedido" msprop:Generator_ColumnVarNameInTable="columnidPedido" msprop:Generator_ColumnPropNameInTable="idPedidoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Efector" msprop:Generator_UserColumnName="Efector" msprop:Generator_ColumnPropNameInRow="Efector" msprop:Generator_ColumnVarNameInTable="columnEfector" msprop:Generator_ColumnPropNameInTable="EfectorColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Deposito" msprop:Generator_UserColumnName="Deposito" msprop:Generator_ColumnPropNameInRow="Deposito" msprop:Generator_ColumnVarNameInTable="columnDeposito" msprop:Generator_ColumnPropNameInTable="DepositoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="EfectorProveedor" msprop:Generator_UserColumnName="EfectorProveedor" msprop:Generator_ColumnPropNameInRow="EfectorProveedor" msprop:Generator_ColumnVarNameInTable="columnEfectorProveedor" msprop:Generator_ColumnPropNameInTable="EfectorProveedorColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DepositoProveedor" msprop:Generator_UserColumnName="DepositoProveedor" msprop:Generator_ColumnPropNameInRow="DepositoProveedor" msprop:Generator_ColumnVarNameInTable="columnDepositoProveedor" msprop:Generator_ColumnPropNameInTable="DepositoProveedorColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="fecha" msprop:Generator_UserColumnName="fecha" msprop:Generator_ColumnPropNameInRow="fecha" msprop:Generator_ColumnVarNameInTable="columnfecha" msprop:Generator_ColumnPropNameInTable="fechaColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="fechaRecepcion" msprop:Generator_UserColumnName="fechaRecepcion" msprop:Generator_ColumnPropNameInRow="fechaRecepcion" msprop:Generator_ColumnVarNameInTable="columnfechaRecepcion" msprop:Generator_ColumnPropNameInTable="fechaRecepcionColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="responsable" msprop:Generator_UserColumnName="responsable" msprop:Generator_ColumnPropNameInRow="responsable" msprop:Generator_ColumnVarNameInTable="columnresponsable" msprop:Generator_ColumnPropNameInTable="responsableColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="observaciones" msprop:Generator_UserColumnName="observaciones" msprop:Generator_ColumnPropNameInRow="observaciones" msprop:Generator_ColumnVarNameInTable="columnobservaciones" msprop:Generator_ColumnPropNameInTable="observacionesColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="idEfector" msprop:Generator_UserColumnName="idEfector" msprop:Generator_ColumnPropNameInRow="idEfector" msprop:Generator_ColumnVarNameInTable="columnidEfector" msprop:Generator_ColumnPropNameInTable="idEfectorColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="idPedidoDetalle" msprop:Generator_UserColumnName="idPedidoDetalle" msprop:Generator_ColumnPropNameInRow="idPedidoDetalle" msprop:Generator_ColumnVarNameInTable="columnidPedidoDetalle" msprop:Generator_ColumnPropNameInTable="idPedidoDetalleColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="idInsumo" msprop:Generator_UserColumnName="idInsumo" msprop:Generator_ColumnPropNameInRow="idInsumo" msprop:Generator_ColumnVarNameInTable="columnidInsumo" msprop:Generator_ColumnPropNameInTable="idInsumoColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="cantidadEmitida" msprop:Generator_UserColumnName="cantidadEmitida" msprop:Generator_ColumnPropNameInRow="cantidadEmitida" msprop:Generator_ColumnVarNameInTable="columncantidadEmitida" msprop:Generator_ColumnPropNameInTable="cantidadEmitidaColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="cantidadRecibida" msprop:Generator_UserColumnName="cantidadRecibida" msprop:Generator_ColumnPropNameInRow="cantidadRecibida" msprop:Generator_ColumnVarNameInTable="columncantidadRecibida" msprop:Generator_ColumnPropNameInTable="cantidadRecibidaColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="Rubro" msprop:Generator_UserColumnName="Rubro" msprop:Generator_ColumnVarNameInTable="columnRubro" msprop:Generator_ColumnPropNameInRow="Rubro" msprop:Generator_ColumnPropNameInTable="RubroColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="cantidadSolicitada" msprop:Generator_UserColumnName="cantidadSolicitada" msprop:Generator_ColumnPropNameInRow="cantidadSolicitada" msprop:Generator_ColumnVarNameInTable="columncantidadSolicitada" msprop:Generator_ColumnPropNameInTable="cantidadSolicitadaColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="cantidadAutorizada" msprop:Generator_UserColumnName="cantidadAutorizada" msprop:Generator_ColumnPropNameInRow="cantidadAutorizada" msprop:Generator_ColumnVarNameInTable="columncantidadAutorizada" msprop:Generator_ColumnPropNameInTable="cantidadAutorizadaColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="DTPedidoEKey1">
+      <xs:selector xpath=".//mstns:DTPedidoE" />
+      <xs:field xpath="mstns:idPedido" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "InsumosWeb", "http://localhost:3553", "{B737845C-A029-40FB-B97D-7AAE6D5EE378}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{705080F4-23ED-4007-AF95-1249F5679A40}|DalDeposito.dll;{4eeb96f2-852c-40e3-a8bc-e14e6b7bbbb8}|DalInsumos.dll;{58f1ebfb-b586-40b9-a562-265f5194391b}|ExtensionMethods.dll;{207e91b1-c9f8-4913-88e1-3549ef5f3273}|fastJSON.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/Farmacia"
+		Debug.AspNetCompiler.PhysicalPath = "InsumosWeb\"
+		Debug.AspNetCompiler.TargetPath = "..\..\..\inetpub\wwwroot\Farmacia\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "true"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Farmacia"
+		Release.AspNetCompiler.PhysicalPath = "InsumosWeb\"
+		Release.AspNetCompiler.TargetPath = "..\..\..\inetpub\wwwroot\Farmacia\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "true"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "InsumosWeb\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalInsumos", "DalInsumos\DalInsumos\DalInsumos.csproj", "{4EEB96F2-852C-40E3-A8BC-E14E6B7BBBB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionMethods", "ExtensionMethods\ExtensionMethods.csproj", "{58F1EBFB-B586-40B9-A562-265F5194391B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fastJSON", "fastJSON\fastJSON.csproj", "{207E91B1-C9F8-4913-88E1-3549EF5F3273}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalPadron", "DalPadron\DalPadron.csproj", "{7AC9E394-EF4E-46CA-94CD-19A3DC2CC254}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalDeposito", "DalDeposito\DalDeposito.csproj", "{705080F4-23ED-4007-AF95-1249F5679A40}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B737845C-A029-40FB-B97D-7AAE6D5EE378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B737845C-A029-40FB-B97D-7AAE6D5EE378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B737845C-A029-40FB-B97D-7AAE6D5EE378}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{B737845C-A029-40FB-B97D-7AAE6D5EE378}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{4EEB96F2-852C-40E3-A8BC-E14E6B7BBBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EEB96F2-852C-40E3-A8BC-E14E6B7BBBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EEB96F2-852C-40E3-A8BC-E14E6B7BBBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EEB96F2-852C-40E3-A8BC-E14E6B7BBBB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58F1EBFB-B586-40B9-A562-265F5194391B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F1EBFB-B586-40B9-A562-265F5194391B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58F1EBFB-B586-40B9-A562-265F5194391B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58F1EBFB-B586-40B9-A562-265F5194391B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{207E91B1-C9F8-4913-88E1-3549EF5F3273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{207E91B1-C9F8-4913-88E1-3549EF5F3273}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{207E91B1-C9F8-4913-88E1-3549EF5F3273}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{207E91B1-C9F8-4913-88E1-3549EF5F3273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AC9E394-EF4E-46CA-94CD-19A3DC2CC254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AC9E394-EF4E-46CA-94CD-19A3DC2CC254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AC9E394-EF4E-46CA-94CD-19A3DC2CC254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AC9E394-EF4E-46CA-94CD-19A3DC2CC254}.Release|Any CPU.Build.0 = Release|Any CPU
+		{705080F4-23ED-4007-AF95-1249F5679A40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{705080F4-23ED-4007-AF95-1249F5679A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{705080F4-23ED-4007-AF95-1249F5679A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{705080F4-23ED-4007-AF95-1249F5679A40}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

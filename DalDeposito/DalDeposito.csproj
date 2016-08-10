@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{705080F4-23ED-4007-AF95-1249F5679A40}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DalDeposito</RootNamespace>
+    <AssemblyName>DalDeposito</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SubSonic, Version=2.2.0.0, Culture=neutral, PublicKeyToken=eadb47849839a332, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Librerias\SubSonic.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="generated\AllStructs.cs" />
+    <Compile Include="generated\Insumo.cs" />
+    <Compile Include="generated\InsumoController.cs" />
+    <Compile Include="generated\InsumosBloqueo.cs" />
+    <Compile Include="generated\InsumosBloqueoController.cs" />
+    <Compile Include="generated\InsumosConsumoAnual.cs" />
+    <Compile Include="generated\InsumosConsumoAnualController.cs" />
+    <Compile Include="generated\InsumosDescarga.cs" />
+    <Compile Include="generated\InsumosDescargaController.cs" />
+    <Compile Include="generated\InsumosDescargasAutoridade.cs" />
+    <Compile Include="generated\InsumosDescargasAutoridadeController.cs" />
+    <Compile Include="generated\InsumosDescargasLinea.cs" />
+    <Compile Include="generated\InsumosDescargasLineaController.cs" />
+    <Compile Include="generated\InsumosDescargasRemito.cs" />
+    <Compile Include="generated\InsumosDescargasRemitoController.cs" />
+    <Compile Include="generated\InsumosFarmaciaLaboratorio.cs" />
+    <Compile Include="generated\InsumosFarmaciaLaboratorioController.cs" />
+    <Compile Include="generated\InsumosFarmaciaNivele.cs" />
+    <Compile Include="generated\InsumosFarmaciaNiveleController.cs" />
+    <Compile Include="generated\InsumosFarmaciaPorLaboratorio.cs" />
+    <Compile Include="generated\InsumosFarmaciaPorLaboratorioController.cs" />
+    <Compile Include="generated\InsumosLlegada.cs" />
+    <Compile Include="generated\InsumosLlegadaController.cs" />
+    <Compile Include="generated\InsumosMensaje.cs" />
+    <Compile Include="generated\InsumosMensajeController.cs" />
+    <Compile Include="generated\InsumosPedido.cs" />
+    <Compile Include="generated\InsumosPedidoController.cs" />
+    <Compile Include="generated\InsumosPedidosAgente.cs" />
+    <Compile Include="generated\InsumosPedidosAgenteController.cs" />
+    <Compile Include="generated\InsumosPedidosAutorizacione.cs" />
+    <Compile Include="generated\InsumosPedidosAutorizacioneController.cs" />
+    <Compile Include="generated\InsumosPedidosBitacora.cs" />
+    <Compile Include="generated\InsumosPedidosBitacoraController.cs" />
+    <Compile Include="generated\InsumosPedidosDestinatario.cs" />
+    <Compile Include="generated\InsumosPedidosDestinatarioController.cs" />
+    <Compile Include="generated\InsumosPedidosDeuda.cs" />
+    <Compile Include="generated\InsumosPedidosDeudaController.cs" />
+    <Compile Include="generated\InsumosPedidosLinea.cs" />
+    <Compile Include="generated\InsumosPedidosLineaController.cs" />
+    <Compile Include="generated\InsumosPedidosTipo.cs" />
+    <Compile Include="generated\InsumosPedidosTipoController.cs" />
+    <Compile Include="generated\InsumosPeriodosControl.cs" />
+    <Compile Include="generated\InsumosPeriodosControlController.cs" />
+    <Compile Include="generated\InsumosPermitido.cs" />
+    <Compile Include="generated\InsumosPermitidoController.cs" />
+    <Compile Include="generated\InsumosPorProveedor.cs" />
+    <Compile Include="generated\InsumosPorProveedorController.cs" />
+    <Compile Include="generated\InsumosProvisione.cs" />
+    <Compile Include="generated\InsumosProvisioneController.cs" />
+    <Compile Include="generated\InsumosProvisionesAgente.cs" />
+    <Compile Include="generated\InsumosProvisionesAgenteController.cs" />
+    <Compile Include="generated\InsumosProvisionesLinea.cs" />
+    <Compile Include="generated\InsumosProvisionesLineaController.cs" />
+    <Compile Include="generated\InsumosProvisionesTipo.cs" />
+    <Compile Include="generated\InsumosProvisionesTipoController.cs" />
+    <Compile Include="generated\InsumosReemplazo.cs" />
+    <Compile Include="generated\InsumosReemplazoController.cs" />
+    <Compile Include="generated\InsumosRemitosPedidosLinea.cs" />
+    <Compile Include="generated\InsumosRemitosPedidosLineaController.cs" />
+    <Compile Include="generated\InsumosRubro.cs" />
+    <Compile Include="generated\InsumosRubroController.cs" />
+    <Compile Include="generated\InsumosRubrosSss.cs" />
+    <Compile Include="generated\InsumosRubrosSssController.cs" />
+    <Compile Include="generated\InsumosSolicitude.cs" />
+    <Compile Include="generated\InsumosSolicitudeController.cs" />
+    <Compile Include="generated\InsumosSolicitudesLinea.cs" />
+    <Compile Include="generated\InsumosSolicitudesLineaController.cs" />
+    <Compile Include="generated\InsumosTemporalImpresion.cs" />
+    <Compile Include="generated\InsumosTemporalImpresionController.cs" />
+    <Compile Include="generated\InsumosTiposComprobante.cs" />
+    <Compile Include="generated\InsumosTiposComprobanteController.cs" />
+    <Compile Include="generated\InsumosUbicacionesPredeterminada.cs" />
+    <Compile Include="generated\InsumosUbicacionesPredeterminadaController.cs" />
+    <Compile Include="generated\InsumosUnidade.cs" />
+    <Compile Include="generated\InsumosUnidadeController.cs" />
+    <Compile Include="generated\InsumosVale.cs" />
+    <Compile Include="generated\InsumosValeController.cs" />
+    <Compile Include="generated\InsumosValesLinea.cs" />
+    <Compile Include="generated\InsumosValesLineaController.cs" />
+    <Compile Include="generated\StoredProcedures.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

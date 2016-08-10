@@ -1,0 +1,103 @@
+﻿using System;
+using System.Data;
+using DalInsumos;
+using System.Web.UI.WebControls;
+using System.Collections.Generic;
+
+public partial class Rubros_List : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            CargarCombos();
+        }
+    }
+
+    private void CargarCombos()
+    {
+       /* SubSonic.Select r = new SubSonic.Select();
+        r.From(InsRubro.Schema);
+        r.OrderAsc("nombre");
+        ddlRubro.DataSource = r.ExecuteTypedList<InsRubro>();
+        ddlRubro.DataBind();
+        ddlRubro.Items.Insert(0, new ListItem("SELECCIONAR", "0")); */
+
+        //primero obtengo los depositos del primer nivel
+        SubSonic.Select d = new SubSonic.Select();
+        d.From(InsRubro.Schema);
+        d.Where(InsRubro.Columns.IdRubroPadre).IsEqualTo(0);
+        d.OrderAsc(InsRubro.Columns.Nombre);
+
+        //ahora los cargo en una lista
+        List<InsRubro> lista = d.ExecuteTypedList<InsRubro>();
+        lit1.Text += "<ul id='treeData'>";
+        lit1.Text += Recursivo(lista);
+        lit1.Text += "</ul>";
+    }
+
+    private static string Recursivo(List<InsRubro> lista)
+  {
+      string s = string.Empty;
+      foreach (InsRubro r in lista)
+      {
+          s += "<li id='" + r.IdRubro + "'";
+          List<InsRubro> lst = GetHijos(r);
+          if (lst.Count > 0)
+          {
+              s += "class = 'folder'>" + r.Nombre;
+              s += "<ul>";
+              s += Recursivo(lst);
+              s += "</ul>";
+          }
+          s += ">" + r.Nombre;
+          s += "</li>";
+      }
+
+      return s;
+  }
+
+    private static List<InsRubro> GetHijos(InsRubro r)
+  {
+      //obtengo los subrubros
+      SubSonic.Select s = new SubSonic.Select();
+      s.From(Schemas.InsRubro);
+      s.Where(InsRubro.Columns.IdRubroPadre).IsEqualTo(r.IdRubro);
+
+      return s.ExecuteTypedList<InsRubro>();
+  }
+
+   /* protected void btnBuscar_Click(object sender, EventArgs e)
+    {
+        buscarDatos();
+    }
+
+    private void buscarDatos()
+    {
+        lblMensaje.Text = "";
+        int rubro = Convert.ToInt32(ddlRubro.SelectedValue);
+
+        SubSonic.Select ru = new SubSonic.Select();
+        ru.From(InsRubro.Schema);
+        ru.Where(InsRubro.Columns.IdRubroPadre).IsEqualTo(rubro);
+
+        DataTable ds = ru.ExecuteDataSet().Tables[0];
+        if (ds.Rows.Count > 0)
+        {
+            gvSubrubros.DataSource = ds;
+            gvSubrubros.DataBind();
+        }
+        else
+        {
+            lblMensaje.Text = "No se encontraron datos";
+        }
+        gvSubrubros.DataBind();
+    }
+
+    protected void gvSubrubros_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvSubrubros.PageIndex = e.NewPageIndex;
+        buscarDatos();
+    }
+    * */
+}

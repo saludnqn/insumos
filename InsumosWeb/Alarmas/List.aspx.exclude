@@ -1,0 +1,99 @@
+﻿<%@ Page Title="Alarmas Existentes" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="List.aspx.cs" Inherits="Alarmas_List" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Cuerpo" runat="Server">
+    <div class="divs">
+        <h2>
+            Alarmas Existentes</h2>
+        <div class="contentBox">
+            <asp:GridView ID="gvAlarmas" runat="server" CssClass="mGrid" DataKeyNames="idInsumo"
+                AutoGenerateColumns="false" EmptyDataText="Sin datos" OnRowDataBound="gvAlarmas_RowDataBound"
+                CellPadding="2">
+                <Columns>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <a href="javascript:switchViews('div<%# Eval("idInsumo") %>', 'one');">
+                                <img id="imgdiv<%# Eval("idInsumo") %>" alt="Click para mostrar/ocultar detalles"
+                                    border="0" src="../App_Themes/Default/images/round_plus.png" />
+                            </a>
+                        </ItemTemplate>
+                        <AlternatingItemTemplate>
+                            <a href="javascript:switchViews('div<%# Eval("idInsumo") %>', 'alt');">
+                                <img id="imgdiv<%# Eval("idInsumo") %>" alt="Click para mostrar/ocultar detalles"
+                                    border="0" src="../App_Themes/default/images/round_plus.png" />
+                            </a>
+                        </AlternatingItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="idInsumo" HeaderText="Código" />
+                    <asp:TemplateField HeaderText="Insumo">
+                        <ItemTemplate>
+                            <asp:Label ID="lblInsumo" runat="server" Text='<%# Eval("Nombre") %>' Title='<%# Eval("Descripcion") %>' />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="diasVencimiento" HeaderText="Dias Vto." />
+                    <asp:BoundField DataField="cantidadMinima" HeaderText="Stock Mínimo" />
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <tr>
+                                <td colspan="100%">
+                                    <div id="div<%# Eval("idInsumo") %>" style="display: none; position: relative; left: 2px;">
+                                        <asp:GridView ID="gvInsumo" runat="server" EmptyDataText="Sin Datos de Recepción" DataKeyNames="idInsumo" CssClass="mGrid"
+                                            AutoGenerateColumns="false">
+                                            <Columns>
+                                                <asp:BoundField DataField="idInsumo" HeaderText="idInsumo" Visible="false" />
+                                                <asp:BoundField DataField="CantidadRecibida" HeaderText="Cantidad Recibida" />
+                                                <asp:BoundField DataField="precioUnitario" HeaderText="Precio Unitario" />
+                                                <asp:BoundField DataField="numeroLote" HeaderText="Lote Nº" />
+                                                <asp:BoundField DataField="fechaVencimiento" HeaderText="Fecha Vto." DataFormatString="{0:dd/MM/yyy}" />
+                                                <asp:BoundField DataField="ModifiedOn" HeaderText="Fecha Recepción" />
+                                            </Columns>
+                                        </asp:GridView>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
+        </div>
+        <br />
+        <asp:HiddenField ID="hfIdInsumo" runat="server" />
+
+        <script type="text/javascript" language="javascript">
+            function switchViews(obj, row) {
+                var div = document.getElementById(obj);
+                var img = document.getElementById('img' + obj);
+
+                if (div.style.display == "none") {
+                    div.style.display = "inline";
+                    if (row == 'alt') {
+                        img.src = "../App_Themes/default/images/round_minus.png";
+                        mce_src = "../App_Themes/default/images/round_minus.png";
+                    }
+                    else {
+                        img.src = "../App_Themes/default/images/round_minus.png";
+                        mce_src = "../App_Themes/default/images/round_minus.png";
+                    }
+                    img.alt = "Cerrar";
+                }
+                else {
+                    div.style.display = "none";
+                    if (row == 'alt') {
+                        img.src = "../App_Themes/default/images/round_plus.png";
+                        mce_src = "../App_Themes/default/images/round_plus.png";
+                    }
+                    else {
+                        img.src = "../App_Themes/default/images/round_plus.png";
+                        mce_src = "..*App_Themes/default/images/round_plus.png";
+                    }
+                    img.alt = "Expandir para ver mas detalles";
+                }
+            }
+        </script>
+
+    </div>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="Botones" runat="Server">
+    <input type="button" value="Volver" title="Volver a la página anterior" onclick="history.go(-1)" />
+</asp:Content>
